@@ -1,0 +1,144 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f0f8ff;
+        font-family: Arial, sans-serif;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .dark-mode {
+        background-color: #121212;
+        color: #ffffff;
+    }
+    .form-container {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: auto;
+    }
+    .dark-mode .form-container {
+        background: #1e1e1e;
+        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
+    }
+    .form-selector {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .hidden {
+        display: none;
+    }
+</style>
+<div class="container mt-5">
+    <h1 class="text-center">Bienvenido a la página de inicio</h1>
+    <p class="text-center">Selecciona el formulario que deseas completar:</p>
+
+    <div class="form-selector">
+        <button type="button" class="btn btn-outline-primary" onclick="showForm('curso')">Curso</button>
+        <button type="button" class="btn btn-outline-success" onclick="showForm('profesor')">Profesor</button>
+        <button type="button" class="btn btn-outline-info" onclick="showForm('alumno')">Alumno</button>
+    </div>
+
+    <!-- Formulario Curso -->
+    <form id="form-curso" method="post" action="{% url 'curso_form' %}" class="needs-validation form-container" novalidate>
+        {% csrf_token %}
+        <h3 class="text-center">Formulario Curso</h3>
+        <div class="mb-3">
+            <label for="id_nombre" class="form-label">Nombre del curso:</label>
+            <input type="text" id="id_nombre" name="nombre" class="form-control" maxlength="40" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_camada" class="form-label">Camada:</label>
+            <input type="number" id="id_camada" name="camada" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_comision" class="form-label">Comisión:</label>
+            <input type="text" id="id_comision" name="comision" class="form-control" maxlength="10" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_anio" class="form-label">Año:</label>
+            <input type="number" id="id_anio" name="anio" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_fecha_inicio" class="form-label">Fecha de inicio:</label>
+            <input type="date" id="id_fecha_inicio" name="fecha_inicio" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="id_fecha_fin" class="form-label">Fecha de fin:</label>
+            <input type="date" id="id_fecha_fin" name="fecha_fin" class="form-control" required>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+    </form>
+
+    <!-- Formulario Profesor -->
+    <form id="form-profesor" method="post" action="{% url 'profesor_form' %}" class="needs-validation form-container hidden" novalidate>
+        {% csrf_token %}
+        <h3 class="text-center">Formulario Profesor</h3>
+        <div class="mb-3">
+            <label for="id_nombre_prof" class="form-label">Nombre:</label>
+            <input type="text" id="id_nombre_prof" name="nombre" class="form-control" maxlength="40">
+        </div>
+        <div class="mb-3">
+            <label for="id_apellido_prof" class="form-label">Apellido:</label>
+            <input type="text" id="id_apellido_prof" name="apellido" class="form-control" maxlength="40">
+        </div>
+        <div class="mb-3">
+            <label for="id_email_prof" class="form-label">Email:</label>
+            <input type="email" id="id_email_prof" name="email" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="id_fecha_nacimiento_prof" class="form-label">Fecha de nacimiento:</label>
+            <input type="date" id="id_fecha_nacimiento_prof" name="fecha_nacimiento" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="id_especialidad_prof" class="form-label">Especialidad:</label>
+            <input type="text" id="id_especialidad_prof" name="especialidad" class="form-control" maxlength="50">
+        </div>
+        
+        <div class="text-center">
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+    </form>
+
+    <!-- Formulario Alumno -->
+    <form id="form-alumno" method="post" action="{% url 'estudiante_form' %}" class="needs-validation form-container hidden" novalidate>
+        {% csrf_token %}
+        <h3 class="text-center">Formulario Alumno</h3>
+        <div class="mb-3">
+            <label for="id_nombre_alum" class="form-label">Nombre:</label>
+            <input type="text" id="id_nombre_alum" name="nombre" class="form-control" maxlength="40">
+        </div>
+        <div class="mb-3">
+            <label for="id_apellido_alum" class="form-label">Apellido:</label>
+            <input type="text" id="id_apellido_alum" name="apellido" class="form-control" maxlength="40">
+        </div>
+        <div class="mb-3">
+            <label for="id_email_alum" class="form-label">Email:</label>
+            <input type="email" id="id_email_alum" name="email" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="id_fecha_nacimiento_alum" class="form-label">Fecha de nacimiento:</label>
+            <input type="date" id="id_fecha_nacimiento_alum" name="fecha_nacimiento" class="form-control">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-info">Enviar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+function showForm(formType) {
+    document.getElementById('form-curso').classList.add('hidden');
+    document.getElementById('form-profesor').classList.add('hidden');
+    document.getElementById('form-alumno').classList.add('hidden');
+    document.getElementById('form-' + formType).classList.remove('hidden');
+}
+</script>
+{% endblock %}
