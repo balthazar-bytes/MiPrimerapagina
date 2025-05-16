@@ -16,19 +16,6 @@ class ProfesorForm(forms.ModelForm):
     email = forms.EmailField(required=False)
     fecha_nacimiento = forms.DateField(required=False)
     especialidad = forms.CharField(max_length=40, required=False)
-    '''class Estudiante(models.Model):
-    nombre = models.CharField(max_length=40)
-    apellido = models.CharField(max_length=40)
-    email = models.EmailField()
-    fecha_nacimiento = models.DateField()
-    
-class Profesor(models.Model):
-    nombre = models.CharField(max_length=40)
-    apellido = models.CharField(max_length=40)
-    email = models.EmailField()
-    fecha_nacimiento = models.DateField()
-    '''
-    
     
 class EstudianteForm(forms.ModelForm):
     nombre = forms.CharField(max_length=40, required=False)
