@@ -1,0 +1,50 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+{% block title %}Buscar estudiante{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-primary">Resultado</h2>
+    <form action="{% url 'buscar' %}" method="GET" class="mb-4">
+        {% csrf_token %}
+        {% if estudiantes %}
+        <ul class="list-group">
+            {% for estudiante in estudiantes %}
+            <li class="list-group-item shadow-sm mb-3 rounded animate__animated animate__fadeInDown">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p class="mb-1"><strong>Nombre:</strong> {{ estudiante.nombre }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="mb-1"><strong>Apellido:</strong> {{ estudiante.apellido }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="mb-1"><strong>Email:</strong> {{ estudiante.email }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="mb-1"><strong>Fecha de Nacimiento:</strong> {{ estudiante.fecha_nacimiento }}</p>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <!-- Animate a check icon when students are found -->
+        <div class="text-center my-4">
+            <i class="fa fa-check-circle text-success animate__animated animate__bounceIn" style="font-size: 3rem;"></i>
+            <div class="mt-2 text-success animate__animated animate__fadeIn">¡Estudiante encontrado!</div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            No se encontraron estudiantes.
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Animate.css CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<!-- FontAwesome CDN for check icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+{% endblock %}
