@@ -1,0 +1,15 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Editar{% endblock %}
+
+{% block content %}
+  <h2>Editar Perfil</h2>
+  <form method="post">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <button type="submit">Guardar Cambios</button>
+  </form>
+{% endblock %}

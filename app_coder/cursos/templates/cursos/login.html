@@ -1,0 +1,56 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+{% block title %}Iniciar Sesión{% endblock %}
+
+{% block content %}
+<style>
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+    .login-card-animated {
+        animation: fadeInUp 0.8s ease;
+    }
+    /* Shake animation */
+    @keyframes shake {
+        0% { transform: translateX(0);}
+        20% { transform: translateX(-10px);}
+        40% { transform: translateX(10px);}
+        60% { transform: translateX(-10px);}
+        80% { transform: translateX(10px);}
+        100% { transform: translateX(0);}
+    }
+    .shake {
+        animation: shake 0.4s;
+    }
+    .btn-primary {
+        transition: background 0.3s, transform 0.2s;
+    }
+    .btn-primary:hover {
+        background: #0056b3;
+        transform: scale(1.04);
+    }
+    input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        transition: box-shadow 0.3s;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm login-card-animated {% if form.errors %}shake{% endif %}">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+                    <form action="" method="POST" novalidate>
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary mt-3">Acceder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Cursos{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h2 class="mb-0 text-center">Lista de Cursos</h2>
+                </div>
+                <div class="card-body text-end">
+                    <a href="{% url 'curso_form' %}" class="btn btn-success">
+                        Crear Curso
+                    </a>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="" class="mb-3">
+                        <div class="input-group w-50 ms-auto">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar curso..." value="{{ request.GET.q }}">
+                            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+                        </div>
+                    </form>
+                    {% if request.GET.q %}
+                        <p class="text-muted mb-0">
+                            Resultados para: "<strong>{{ request.GET.q }}</strong>"
+                            {% if not cursos %}
+                                - No se encontraron cursos.
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Camada</th>
+                                    <th>Año</th>
+                                    <th>Comisión</th>
+                                    <th>Fecha de inicio</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if cursos %}
+                                    {% for curso in cursos %}
+                                    <tr>
+                                        <td>{{ curso.nombre }}</td>
+                                        <td>{{ curso.camada }}</td>
+                                        <td>{{ curso.anio }}</td>
+                                        <td>{{ curso.comision }}</td>
+                                        <td>{{ curso.fecha_inicio }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">No hay cursos registrados.</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

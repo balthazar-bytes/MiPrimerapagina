@@ -1,0 +1,15 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Perfil{% endblock %}
+
+
+{% block content %}
+  <h2>Perfil de {{ estudiante.nombre }}</h2>
+  <p><strong>Nombre:</strong> {{ estudiante.nombre }}</p>
+  <p><strong>Apellido:</strong> {{ estudiante.apellido }}</p>
+  <p><strong>Email:</strong> {{ estudiante.email }}</p>
+  <p><strong>Fecha de Nacimiento:</strong> {{ estudiante.fecha_nacimiento }}</p>
+
+  <a href="{% url 'editar_perfil' %}">Editar Perfil</a>
+{% endblock %}
