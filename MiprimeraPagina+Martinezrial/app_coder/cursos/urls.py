@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path("inicio/", views.inicio, name="inicio"),
@@ -21,6 +22,7 @@ urlpatterns = [
     path("",views.login_request, name="Login"),
     path('perfil/', views.perfil, name='perfil'),
     path('editar_perfil/', views.editarPerfil, name='editar_perfil'),
+    path('logout/', LogoutView.as_view(next_page='inicio'), name='logout'),
     
 
 ]

@@ -54,7 +54,7 @@
                         <li class="nav-item"><a class="nav-link" href="/buscar_estudiante">Buscar Estudiantes</a></li>
                         <li class="nav-item"><a class="nav-link" href="/profesores/">Profesores</a></li>
                         <li class="nav-item"><a class="nav-link" href="/cursos/">Cursos</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/">Login</a></li>
+                        
                         {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link text-bg-info" href="/editar_perfil/">
@@ -64,6 +64,14 @@
                                 {{ user.username }}
                             </a>
                         </li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="/">Login</a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'logout' %}" class="d-inline ms-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
+                        </form>
                         {% endif %}
                         
                     </ul>
