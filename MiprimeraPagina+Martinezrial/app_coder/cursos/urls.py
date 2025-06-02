@@ -5,7 +5,7 @@ from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
-    path("inicio/", views.inicio, name="inicio"),
+    path("", views.inicio, name="inicio"),
    # path("cursos/", views.cursos, name="cursos"),
     #path("estudiantes/", views.estudiantes, name="estudiantes"),
     path("estudiantes/", views.EstudianteListView.as_view(), name="estudiantes"),
@@ -19,10 +19,10 @@ urlpatterns = [
     path("estudiante/detail/<int:pk>", views.EstudianteDetailView.as_view(), name="estudiante_detail"),
     path("estudiante/delete/<int:pk>", views.EstudianteDeleteView.as_view(), name="estudiante_delete"),
     path("estudiante/update/<int:pk>", views.editar, name="editar_estudiante"),
-    path("",views.login_request, name="Login"),
+    path("login/",views.login_request, name="Login"),
     path('perfil/', views.perfil, name='perfil'),
     path('editar_perfil/', views.editarPerfil, name='editar_perfil'),
     path('logout/', LogoutView.as_view(next_page='inicio'), name='logout'),
-    
+    path('registro/', views.registro_request, name='registro'),
 
 ]

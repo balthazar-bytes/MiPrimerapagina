@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Base Page{% endblock %}</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <style>
@@ -42,53 +41,104 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Your Website</a>
+            <div class="container-fluid justify-content-center">
+                <a class="navbar-brand mx-2" href="/">Your Website</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="/inicio/">Inicio</a></li>   
-                        <li class="nav-item"><a class="nav-link" href="/estudiantes">Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/buscar_estudiante">Buscar Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/profesores/">Profesores</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/cursos/">Cursos</a></li>
-                        
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav align-items-center me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inicio' %}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'estudiantes' %}">Estudiantes</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}">Buscar Estudiantes</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}">Profesores</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}">Cursos</a></li>
+                    </ul>
+                    <ul class="navbar-nav align-items-center">
                         {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link text-bg-info" href="/editar_perfil/">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle custom-nav-btn d-flex align-items-center" href="#" id="navbarDropdownUserLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {% if avatar and avatar.imagen %}
-                                    <img src="{{ avatar.imagen.url }}" alt="" class="rounded-circle" width="30" height="30">
+                                    <img src="{{ avatar.imagen.url }}" alt="" class="rounded-circle me-2" width="30" height="30">
                                 {% endif %}
                                 {{ user.username }}
                             </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{% url 'perfil' %}">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'editar_perfil' %}">Editar Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href="/">Login</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}">Registrarse</a></li>
                         {% endif %}
-                        {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'logout' %}" class="d-inline ms-2">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-danger">Cerrar sesión</button>
-                        </form>
-                        {% endif %}
-                        
+                        <li class="nav-item">
+                            <button id="darkModeToggle" class="custom-nav-btn ms-2">Modo Oscuro</button>
+                        </li>
                     </ul>
                 </div>
-                <button id="darkModeToggle" class="btn btn-outline-dark ms-3">Modo Oscuro</button>
             </div>
         </nav>
     </header>
+    <style>
+        .custom-nav-btn,
+        .custom-nav-btn:visited,
+        .custom-nav-btn:focus {
+            background-color: transparent !important;
+            color: #007bff !important;
+            border: none !important;
+            border-radius: 4px !important;
+            padding: 8px 18px !important;
+            margin: 0 4px !important;
+            font-size: 1rem !important;
+            text-align: center !important;
+            min-width: 110px;
+            display: inline-block;
+            transition: background 0.2s, color 0.2s;
+        }
+        .custom-nav-btn:hover,
+        .custom-nav-btn:active {
+            background-color: #007bff !important;
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+        .navbar-nav .nav-item {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .custom-nav-btn {
+                width: 100%;
+                margin: 4px 0 !important;
+            }
+        }
+    </style>
     <main class="container my-4">
         {% block content %}
-        <!-- Content goes here -->
         {% endblock %}
     </main>
     <footer class="bg-light text-center py-3">
         <p>&copy; 2023 Your Website. All rights reserved.</p>
     </footer>
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -96,6 +146,13 @@
             document.body.classList.toggle('dark-mode');
             darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Oscuro';
         });
+
+        // Inicializar el texto del botón de modo oscuro al cargar la página
+        if (document.body.classList.contains('dark-mode')) {
+            darkModeToggle.textContent = 'Modo Claro';
+        } else {
+            darkModeToggle.textContent = 'Modo Oscuro';
+        }
     </script>
 </body>
 </html>

@@ -7,7 +7,12 @@ from django.views.generic import ListView,DeleteView,DetailView,UpdateView,Creat
 from django.contrib.auth.forms import AuthenticationForm,UserCreationForm,UserChangeForm
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.decorators import login_required
- 
+
+# ... (resto de tus importaciones y vistas)
+
+
+
+# ... (resto de tus vistas)
 '''Apartado de Usuari'''
 def perfil(request):    
     return render(request, "cursos/perfil.html", {"usuario": request.user}) 
@@ -47,6 +52,50 @@ def editarPerfil(request):
 #     else:
 #         form = AvatarForm(instance=request.user.avatar)
 #     return render(request, "cursos/upload_avatar.html", {"form": form})
+
+def registro_request(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()  # Guarda el nuevo usuario
+            login(request, user)  # Inicia sesión automáticamente al nuevo usuario
+            return redirect("inicio")  # Redirige a la página de inicio después del registro
+        else:
+            # Si el formulario no es válido, se vuelve a renderizar la página de registro con los errores
+            return render(request, "cursos/registro.html", {"form": form, "mensaje": "Por favor, corrige los errores."})
+    else:
+        form = UserCreationForm()
+    # Crea un formulario vacío para una solicitud GET
+    return render(request, "cursos/registro.html", {"form": form})
+
+
+
+
+def login_request(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            usuario = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=usuario, password=password)
+            if user is not None:
+                login(request, user)
+                # Puedes redirigir a 'inicio' o a donde prefieras después del login exitoso
+                return redirect("inicio") 
+            else:
+                # Usuario o contraseña incorrectos, renderiza de nuevo login.html con el form que tiene los errores.
+                return render(request, "cursos/login.html", {"form": form, "mensaje_error": "Usuario o contraseña incorrectos."})
+        else:
+            # Formulario no es válido (ej. campos vacíos), renderiza de nuevo login.html con el form que tiene los errores.
+            return render(request, "cursos/login.html", {"form": form})
+    else: # Para solicitudes GET
+        form = AuthenticationForm()
+    return render(request, "cursos/login.html", {"form": form})
+
+
+
+
+
 
 
 
@@ -243,25 +292,6 @@ def buscar(request):
 # Create your views here.
 
 
-def login_request(request):
-    if request.method == "POST":
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            usuario = form.cleaned_data.get("username")
-            password = form.cleaned_data.get("password")
-            #autentificamos el usuario a ver si existe
-            user = authenticate(username=usuario, password=password)            
-            # si existe me queda el usuario y si no me queda None
-            if user is not None:
-                login(request, user)
-                return render(request, "cursos/inicio.html", {"mensaje": f"Bienvenido {usuario}"})
-            else:
-                return render(request, "cursos/inicio.html", {"mensaje": "Usuario o contraseña incorrectos"})
-    
-    
-    
-    
-    form = AuthenticationForm(request, data=request.POST)
-    return render(request, "cursos/login.html", {"form": form})
+
 
 
