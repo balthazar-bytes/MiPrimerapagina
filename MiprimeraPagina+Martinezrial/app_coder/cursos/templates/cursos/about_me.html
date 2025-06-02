@@ -1,0 +1,88 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}About me{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 animate__animated animate__fadeIn">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Sobre mí</h2>
+                    <p class="card-text fs-5">
+                        Hola, buenos días/tardes/noches, mi nombre es <strong>Balthazar Martinez Rial</strong>. Soy estudiante de ingeniería en informática y también estudio programación de forma autodidacta a través de cursos, videos, artículos, etc.<br>
+                        Actualmente trabajo en una empresa llamada <strong>uali</strong> como Data Scientist Jr., donde ya han pasado un total de 6 meses desde mi ingreso.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% load static %} {# Asegúrate que esto esté al inicio de tu plantilla si no está en un base.html del que heredas #}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <div class="card shadow-sm border-0 mb-4 animate__animated animate__fadeInUp">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="card-title mb-0 text-center">Tecnologías que Utilizo</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h5 class="mb-3 text-center text-md-start border-bottom pb-2">Lenguajes de Programación</h5>
+                            <ul class="list-unstyled">
+                                <li class="d-flex align-items-center mb-3">
+                                    {# CORRECCIÓN AQUÍ 👇 #}
+                                    <img src="{% static 'cursos/img/c.png' %}" alt="C" width="32" height="32" class="me-3 rounded-circle">
+                                    <span>C</span>
+                                </li>
+                                <li class="d-flex align-items-center mb-3">
+                                    {# CORRECCIÓN AQUÍ 👇 #}
+                                    <img src="{% static 'cursos/img/python.png' %}" alt="Python" width="32" height="32" class="me-3 rounded-circle">
+                                    <span>Python</span>
+                                </li>
+                                <li class="d-flex align-items-center">
+                                    {# CORRECCIÓN AQUÍ 👇 #}
+                                    <img src="{% static 'cursos/img/sql.png' %}" alt="SQL" width="32" height="32" class="me-3 rounded-circle">
+                                    <span>SQL</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h5 class="mb-3 text-center text-md-start border-bottom pb-2">Frameworks</h5>
+                            <ul class="list-unstyled">
+                                <li class="d-flex align-items-center">
+                                    {# CORRECCIÓN AQUÍ 👇 #}
+                                    <img src="{% static 'cursos/img/django.png' %}" alt="Django" width="32" height="32" class="me-3 rounded-circle">
+                                    <span>Django</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm border-0 animate__animated animate__fadeInUp text-center">
+                 <div class="card-header bg-dark text-white">
+                    <h3 class="card-title mb-0">Mi GitHub</h3>
+                </div>
+                <div class="card-body p-4">
+                    <p class="mb-3">¡Conecta conmigo y explora mis proyectos!</p>
+                    <a href="https://github.com/balti" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center">
+                        {# CORRECCIÓN AQUÍ 👇 #}
+                        <img src="{% static 'cursos/img/github.png' %}" alt="GitHub" width="28" height="28" class="me-2">
+                        Visita mi Perfil
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+{% endblock %}
+

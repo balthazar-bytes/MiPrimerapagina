@@ -292,6 +292,10 @@ def buscar(request):
 # Create your views here.
 
 
+def about_me(request):
+    return render(request, "cursos/about_me.html")
+
+
 
 
 
