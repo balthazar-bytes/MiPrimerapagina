@@ -30,38 +30,42 @@
                     <h3 class="card-title mb-0 text-center">Tecnologías que Utilizo</h3>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row">
-                        <div class="col-md-6 mb-4 mb-md-0">
-                            <h5 class="mb-3 text-center text-md-start border-bottom pb-2">Lenguajes de Programación</h5>
-                            <ul class="list-unstyled">
-                                <li class="d-flex align-items-center mb-3">
-                                    {# CORRECCIÓN AQUÍ 👇 #}
-                                    <img src="{% static 'cursos/img/c.png' %}" alt="C" width="32" height="32" class="me-3 rounded-circle">
-                                    <span>C</span>
-                                </li>
-                                <li class="d-flex align-items-center mb-3">
-                                    {# CORRECCIÓN AQUÍ 👇 #}
-                                    <img src="{% static 'cursos/img/python.png' %}" alt="Python" width="32" height="32" class="me-3 rounded-circle">
-                                    <span>Python</span>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    {# CORRECCIÓN AQUÍ 👇 #}
-                                    <img src="{% static 'cursos/img/sql.png' %}" alt="SQL" width="32" height="32" class="me-3 rounded-circle">
-                                    <span>SQL</span>
-                                </li>
-                            </ul>
+                    <div class="row g-4 justify-content-center">
+
+                        <!-- Lenguajes de Programación -->
+                        <div class="col-12 mb-3">
+                            <h5 class="mb-3 text-center border-bottom pb-2">Lenguajes de Programación</h5>
+                        </div>
+                        <div class="col-4 col-md-3 d-flex justify-content-center">
+                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite">
+                                <img src="{% static 'cursos/img/c.png' %}" alt="C" width="48" height="48" class="mb-2">
+                                <div class="tool-label">C</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-3 d-flex justify-content-center">
+                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-1s">
+                                <img src="{% static 'cursos/img/python.png' %}" alt="Python" width="48" height="48" class="mb-2">
+                                <div class="tool-label">Python</div>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-3 d-flex justify-content-center">
+                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-2s">
+                                <img src="{% static 'cursos/img/sql.png' %}" alt="SQL" width="48" height="48" class="mb-2">
+                                <div class="tool-label">SQL</div>
+                            </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <h5 class="mb-3 text-center text-md-start border-bottom pb-2">Frameworks</h5>
-                            <ul class="list-unstyled">
-                                <li class="d-flex align-items-center">
-                                    {# CORRECCIÓN AQUÍ 👇 #}
-                                    <img src="{% static 'cursos/img/django.png' %}" alt="Django" width="32" height="32" class="me-3 rounded-circle">
-                                    <span>Django</span>
-                                </li>
-                            </ul>
+                        <!-- Frameworks -->
+                        <div class="col-12 mt-4 mb-3">
+                            <h5 class="mb-3 text-center border-bottom pb-2">Frameworks</h5>
                         </div>
+                        <div class="col-4 col-md-3 d-flex justify-content-center">
+                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-3s">
+                                <img src="{% static 'cursos/img/django.png' %}" alt="Django" width="48" height="48" class="mb-2">
+                                <div class="tool-label">Django</div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -72,8 +76,7 @@
                 </div>
                 <div class="card-body p-4">
                     <p class="mb-3">¡Conecta conmigo y explora mis proyectos!</p>
-                    <a href="https://github.com/balti" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center">
-                        {# CORRECCIÓN AQUÍ 👇 #}
+                    <a href="https://github.com/balthazar-bytes" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center">
                         <img src="{% static 'cursos/img/github.png' %}" alt="GitHub" width="28" height="28" class="me-2">
                         Visita mi Perfil
                     </a>
@@ -83,6 +86,48 @@
         </div>
     </div>
 </div>
+
+<style>
+.tool-card {
+    background: #181c24;
+    border-radius: 18px;
+    box-shadow: 0 0 16px 2px #00fff7, 0 2px 8px rgba(0,0,0,0.15);
+    padding: 24px 12px 12px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.3s, transform 0.3s;
+    position: relative;
+}
+.tool-card:hover {
+    box-shadow: 0 0 32px 8px #00fff7, 0 4px 16px rgba(0,0,0,0.25);
+    transform: translateY(-6px) scale(1.05);
+}
+.led-glow::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00fff7 60%, transparent 100%);
+    filter: blur(2px);
+    opacity: 0.7;
+    z-index: 1;
+    animation: led-blink 2s infinite alternate;
+}
+@keyframes led-blink {
+    0% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+.tool-label {
+    color: #fff;
+    font-weight: 600;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #00fff7;
+}
+</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
 
