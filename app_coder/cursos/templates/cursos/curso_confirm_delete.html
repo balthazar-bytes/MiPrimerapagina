@@ -1,27 +1,29 @@
 {% extends "cursos/base.html" %}
 {% load static %}
-
-{% block title %}Delete{% endblock %}
-
+{% block title %}Confirmar Eliminación{% endblock %}
 
 {% block content %}
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="card shadow">
-                    <div class="card-header bg-danger text-white">
-                        <h2 class="mb-0 text-center">Eliminar Curso</h2>
-                    </div>
-                    <div class="card-body">
-                        <p>¿Estás seguro de que deseas eliminar el curso de {{ object.nombre }} ?</p>
-                        <form method="post" action="{% url 'curso_delete' object.pk %}">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                            <a href="{% url 'cursos' %}" class="btn btn-secondary">Cancelar</a>
-                        </form>
-                    </div>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg border-0 card-fade-in">
+                <div class="card-header bg-danger text-white text-center">
+                    <h3 class="mb-0">Confirmar Eliminación</h3>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <p class="fs-5">¿Estás seguro de que deseas eliminar el curso de <strong>"{{ object.nombre }}"</strong>?</p>
+                    <p class="text-muted">Esta acción no se puede deshacer.</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 d-md-flex justify-content-center mt-4">
+                            <a href="{% url 'cursos' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-danger btn-submit-hover">Sí, eliminar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+{% include 'cursos/includes/animations.html' %}
 {% endblock %}

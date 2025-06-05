@@ -1,333 +1,308 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Base Page{% endblock %}</title>
+    <title>{% block title %}Mi Sitio Web{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    {# Si tienes un archivo styles.css general, asegúrate de que también tenga estilos para modo oscuro o que estos no entren en conflicto #}
-    {# <link rel="stylesheet" href="{% static 'css/styles.css' %}"> #}
-    <style>
-    /* Estilos Generales y Modo Claro (Algunos ya los tenías) */
-    body {
-        background-color: #f0f8ff; /* Fondo claro por defecto */
-        font-family: Arial, sans-serif;
-        color: #212529; /* Color de texto oscuro por defecto */
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    .form-container { /* Contenedor de formularios, ejemplo */
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        margin: auto;
-    }
-
-    .form-selector {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    /* ---- INICIO DE ESTILOS PARA MODO OSCURO ---- */
-    .dark-mode {
-        background-color: #121212; /* Fondo principal muy oscuro */
-        color: #e0e0e0; /* Color de texto principal claro, no blanco puro para mejor lectura */
-    }
-
-    /* Header y Navbar en Modo Oscuro */
-    .dark-mode .navbar {
-        background-color: #1f1f1f !important; /* Un poco más claro que el body, !important para sobrescribir bg-light de Bootstrap */
-        border-bottom: 1px solid #333; /* Borde sutil */
-    }
-
-    .dark-mode .navbar-brand {
-        color: #e0e0e0 !important;
-    }
-    .dark-mode .navbar-brand:hover {
-        color: #ffffff !important;
-    }
-
-    .dark-mode .navbar-toggler-icon {
-        filter: invert(1) grayscale(100%) brightness(200%); /* Para hacer el ícono del toggler blanco */
-    }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
-    .dark-mode .nav-link, 
-    .dark-mode .dropdown-item { /* Enlaces de navegación y items del dropdown */
-        color: #bbbbbb !important; /* Un gris claro para los enlaces */
-    }
-    .dark-mode .nav-link:hover, 
-    .dark-mode .nav-link:focus,
-    .dark-mode .dropdown-item:hover,
-    .dark-mode .dropdown-item:focus {
-        color: #ffffff !important;
-        background-color: #333333 !important; /* Fondo sutil al hacer hover */
-    }
-    .dark-mode .dropdown-menu {
-        background-color: #1f1f1f;
-        border: 1px solid #333;
-    }
-    .dark-mode .dropdown-divider {
-        border-top-color: #333;
-    }
-
-    /* Botones custom de la navbar en modo oscuro */
-    .dark-mode .custom-nav-btn,
-    .dark-mode .custom-nav-btn:visited,
-    .dark-mode .custom-nav-btn:focus {
-        color: #8ab4f8 !important; /* Un azul claro para los botones custom */
-        background-color: transparent !important;
-    }
-    .dark-mode .custom-nav-btn:hover,
-    .dark-mode .custom-nav-btn:active {
-        background-color: rgba(138, 180, 248, 0.2) !important; /* Fondo azulado transparente al hover */
-        color: #a1c2fa !important;
-    }
-    
-    /* Botón de Modo Oscuro/Claro específico */
-    .dark-mode #darkModeToggle {
-        /* Ya cubierto por .custom-nav-btn, pero puedes añadir más especificidad si es necesario */
-    }
-
-
-    /* Tarjetas (Cards) en Modo Oscuro */
-    .dark-mode .card {
-        background-color: #1e1e1e; /* Fondo de tarjeta oscuro */
-        border-color: #333; /* Borde más oscuro */
-        color: #e0e0e0; /* Texto de la tarjeta */
-    }
-    .dark-mode .card-header {
-        background-color: #2a2a2a !important; /* Encabezado de tarjeta un poco diferente */
-        color: #e0e0e0 !important;
-        border-bottom: 1px solid #333;
-    }
-    .dark-mode .card-title {
-        color: #ffffff; /* Títulos de tarjeta más prominentes */
-    }
-    .dark-mode .list-group-item { /* Si usas list groups dentro de cards */
-        background-color: #1e1e1e;
-        border-color: #333;
-        color: #e0e0e0;
-    }
-
-    /* Formularios en Modo Oscuro */
-    .dark-mode .form-container {
-        background: #1e1e1e;
-        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05); /* Sombra más sutil */
-        color: #e0e0e0;
-    }
-    .dark-mode .form-control {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        border-color: #333;
-    }
-    .dark-mode .form-control:focus {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        border-color: #8ab4f8; /* Color de borde al enfocar, similar a los botones */
-        box-shadow: 0 0 0 0.25rem rgba(138, 180, 248, 0.25);
-    }
-    .dark-mode .form-label {
-        color: #bbbbbb;
-    }
-    .dark-mode .form-select {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
-        border-color: #333;
-    }
-
-    /* Botones Generales de Bootstrap en Modo Oscuro */
-    .dark-mode .btn-primary {
-        background-color: #8ab4f8;
-        border-color: #8ab4f8;
-        color: #121212; /* Texto oscuro para contraste con fondo azul claro */
-    }
-    .dark-mode .btn-primary:hover {
-        background-color: #a1c2fa;
-        border-color: #a1c2fa;
-    }
-    .dark-mode .btn-outline-dark { /* Para tu botón de GitHub */
-        color: #e0e0e0;
-        border-color: #555;
-    }
-    .dark-mode .btn-outline-dark:hover {
-        background-color: #333;
-        color: #ffffff;
-    }
-    .dark-mode .btn-outline-danger { /* Para el botón de cerrar sesión */
-        color: #f28b82;
-        border-color: #f28b82;
-    }
-    .dark-mode .btn-outline-danger:hover {
-        background-color: #f28b82;
-        color: #121212;
-    }
-    /* Añade más estilos para .btn-secondary, .btn-success, etc., si los usas */
-
-
-    /* Footer en Modo Oscuro */
-    .dark-mode footer.bg-light { /* Footer tiene bg-light, necesitamos sobrescribirlo */
-        background-color: #1f1f1f !important;
-        color: #bbbbbb;
-        border-top: 1px solid #333;
-    }
-    .dark-mode footer p {
-        color: #bbbbbb; /* Asegurar que el texto del párrafo en el footer también cambie */
-    }
-
-    /* Enlaces generales en modo oscuro */
-    .dark-mode a {
-        color: #8ab4f8; /* Un color azulado que se destaque */
-    }
-    .dark-mode a:hover {
-        color: #a1c2fa;
-    }
-
-
-    /* ---- FIN DE ESTILOS PARA MODO OSCURO ---- */
-    </style>
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid justify-content-center">
-                <a class="navbar-brand mx-2" href="{% url 'inicio' %}">Your Website</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav align-items-center me-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inicio' %}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'estudiantes' %}">Estudiantes</a></li>
-                        {% if user.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}">Buscar Estudiantes</a></li>
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}">Profesores</a></li>
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}">Cursos</a></li>
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'about_me' %}">About me</a></li>
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inbox' %}">Mensajes</a></li>
-                        {% endif %}
-                    </ul>
-                    <ul class="navbar-nav align-items-center">
-                        {% if user.is_authenticated %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle custom-nav-btn d-flex align-items-center" href="#" id="navbarDropdownUserLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% if avatar and avatar.imagen %}
-                                    <img src="{{ avatar.imagen.url }}" alt="" class="rounded-circle me-2" width="30" height="30">
-                                {% endif %}
-                                {{ user.username }}
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUserLink">
-                                <li><a class="dropdown-item" href="{% url 'perfil' %}">Ver Perfil</a></li>
-                                <li><a class="dropdown-item" href="{% url 'editar_perfil' %}">Editar Perfil</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="{% url 'logout' %}" class="d-inline">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-                        {% else %}
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}">Login</a></li>
-                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}">Registrarse</a></li>
-                        {% endif %}
-                        <li class="nav-item">
-                            <button id="darkModeToggle" class="btn custom-nav-btn ms-2">Modo Oscuro</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
     <style>
-        /* Estilos para tus botones custom-nav-btn (los que ya tenías) */
-        /* Podrías considerar moverlos a tu archivo styles.css si se hacen muy extensos aquí */
+        /* Estilos Generales y Modo Claro */
+        body {
+            background-color: #f0f8ff; 
+            font-family: 'Arial', sans-serif; /* Usar una fuente sans-serif común */
+            color: #212529;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding-top: 70px; /* Ajuste para navbar fija */
+        }
+
+        /* --- Estilos Navbar --- */
+        .navbar {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Sombra sutil para la navbar */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem; /* Tamaño de la marca un poco más grande */
+        }
+
         .custom-nav-btn,
         .custom-nav-btn:visited,
         .custom-nav-btn:focus {
             background-color: transparent !important;
-            color: #007bff !important; /* Color en modo claro */
-            border: none !important;
-            border-radius: 4px !important;
-            padding: 8px 18px !important;
-            margin: 0 4px !important;
-            font-size: 1rem !important;
+            color: #007bff !important; 
+            border: 2px solid transparent !important; /* Borde transparente inicial */
+            border-radius: 50px !important; /* Botones más redondeados tipo "píldora" */
+            padding: 8px 20px !important;
+            margin: 0 5px !important;
+            font-weight: 500; /* Un poco más de peso */
             text-align: center !important;
-            min-width: 110px;
-            display: inline-block;
-            transition: background 0.2s, color 0.2s;
+            transition: all 0.3s ease; /* Transición suave para todos los estados */
         }
+
         .custom-nav-btn:hover,
         .custom-nav-btn:active {
-            background-color: #007bff !important; /* Fondo en hover modo claro */
-            color: #fff !important;  /* Texto en hover modo claro */
-            text-decoration: none !important;
+            background-color: #007bff !important;
+            color: #fff !important;
+            border-color: #007bff !important; /* Borde visible al hacer hover */
+            transform: translateY(-2px); /* Ligero efecto de elevación */
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
         }
+        
+        /* Estilos para el menú desplegado (colapsado) */
+        .navbar-collapse {
+            /* background-color: #f8f9fa;  Podemos añadir un fondo si queremos */
+            /* border-top: 1px solid #dee2e6; */ /* Línea superior cuando se despliega */
+        }
+        
         .navbar-nav .nav-item {
-            display: flex;
-            align-items: center;
-            height: 100%;
+            /* Animación de entrada para los ítems del menú desplegado */
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInDownItem 0.3s ease-out forwards;
         }
-        .navbar-nav {
-            flex-direction: row;
+
+        /* Aplicar retraso escalonado a la animación de los ítems */
+        /* CORRECCIÓN: Se reemplaza el bucle con el filtro inválido por CSS explícito */
+        .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.05s; }
+        .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.10s; }
+        .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.15s; }
+        .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.20s; }
+        .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.25s; }
+        .navbar-nav .nav-item:nth-child(6) { animation-delay: 0.30s; }
+        .navbar-nav .nav-item:nth-child(7) { animation-delay: 0.35s; }
+        .navbar-nav .nav-item:nth-child(8) { animation-delay: 0.40s; }
+        /* Si tienes más de 8 elementos principales en el nav, puedes añadir más reglas nth-child aquí */
+
+
+        @keyframes fadeInDownItem {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .navbar-brand {
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
+
         @media (max-width: 991.98px) {
+            .navbar-collapse {
+                padding: 15px; /* Más padding en el menú colapsado */
+                background-color: #ffffff; /* Fondo blanco para el menú desplegado */
+                border-radius: 0 0 8px 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
             .navbar-nav {
                 flex-direction: column;
                 align-items: stretch;
             }
             .custom-nav-btn {
                 width: 100%;
-                margin: 4px 0 !important;
+                margin: 5px 0 !important; /* Más margen vertical entre botones */
+                text-align: left !important; /* Alinear texto a la izquierda en móvil */
+                padding-left: 15px !important;
+            }
+             .navbar-nav .dropdown-menu {
+                box-shadow: none;
+                border: none;
+                background-color: transparent;
+            }
+            .navbar-nav .dropdown-item {
+                padding-left: 25px; /* Indentación para ítems de dropdown */
             }
         }
+
+        /* --- Modo Oscuro --- */
+        .dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .dark-mode .navbar {
+            background-color: #1f1f1f !important;
+            border-bottom-color: #333;
+        }
+        .dark-mode .navbar-brand,
+        .dark-mode .nav-link, /* Incluye .nav-link para los enlaces no-botón */
+        .dark-mode .dropdown-item {
+            color: #e0e0e0 !important;
+        }
+        .dark-mode .navbar-brand:hover,
+        .dark-mode .nav-link:hover,
+        .dark-mode .dropdown-item:hover {
+            color: #ffffff !important;
+        }
+        .dark-mode .navbar-toggler {
+             border-color: rgba(255,255,255,0.1);
+        }
+        .dark-mode .navbar-toggler-icon {
+            filter: invert(1) grayscale(100%) brightness(200%);
+        }
+        .dark-mode .custom-nav-btn,
+        .dark-mode .custom-nav-btn:visited,
+        .dark-mode .custom-nav-btn:focus {
+            color: #8ab4f8 !important; /* Azul claro para modo oscuro */
+        }
+        .dark-mode .custom-nav-btn:hover,
+        .dark-mode .custom-nav-btn:active {
+            background-color: #8ab4f8 !important;
+            color: #121212 !important; /* Texto oscuro para contraste */
+            border-color: #8ab4f8 !important;
+            box-shadow: 0 4px 8px rgba(138, 180, 248, 0.2);
+        }
+        .dark-mode .dropdown-menu {
+            background-color: #2a2a2a; /* Fondo más oscuro para dropdown */
+            border-color: #333;
+        }
+         .dark-mode .dropdown-divider {
+            border-top-color: #333;
+        }
+        @media (max-width: 991.98px) {
+            .dark-mode .navbar-collapse {
+                background-color: #1f1f1f; /* Fondo del menú colapsado en modo oscuro */
+            }
+             .dark-mode .navbar-nav .dropdown-menu {
+                background-color: transparent;
+            }
+        }
+        
+        /* Estilos generales para tarjetas y otros componentes (simplificado) */
+        .dark-mode .card {
+            background-color: #1e1e1e; border-color: #333; color: #e0e0e0;
+        }
+        .dark-mode .card-header {
+            background-color: #2a2a2a !important; color: #e0e0e0 !important; border-bottom-color: #333;
+        }
+        .dark-mode .form-control {
+            background-color: #2a2a2a; color: #e0e0e0; border-color: #333;
+        }
+        .dark-mode .form-control:focus {
+            border-color: #8ab4f8; box-shadow: 0 0 0 0.25rem rgba(138, 180, 248, 0.25);
+        }
+        .dark-mode footer.bg-light {
+            background-color: #1f1f1f !important; color: #bbbbbb; border-top-color: #333;
+        }
+        .dark-mode a { color: #8ab4f8; }
+        .dark-mode a:hover { color: #a1c2fa; }
+
     </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"> 
+            <div class="container-fluid">
+                <a class="navbar-brand mx-2" href="{% url 'inicio' %}">
+                    <i class="fas fa-graduation-cap me-2"></i>GestorPro
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavContent" aria-controls="navbarNavContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inicio' %}"><i class="fas fa-home me-1"></i>Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'estudiantes' %}"><i class="fas fa-user-graduate me-1"></i>Estudiantes</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}"><i class="fas fa-search me-1"></i>Buscar</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}"><i class="fas fa-chalkboard-teacher me-1"></i>Profesores</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}"><i class="fas fa-book-open me-1"></i>Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'about_me' %}"><i class="fas fa-info-circle me-1"></i>Sobre Mí</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inbox' %}"><i class="fas fa-envelope me-1"></i>Mensajes</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav align-items-center ms-auto"> 
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle custom-nav-btn d-flex align-items-center" href="#" id="navbarDropdownUserLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if avatar and avatar.imagen and avatar.imagen.url %}
+                                    <img src="{{ avatar.imagen.url }}" alt="Avatar" class="rounded-circle me-2" width="30" height="30" style="object-fit: cover;">
+                                {% else %}
+                                    <i class="fas fa-user-circle fa-lg me-2"></i>
+                                {% endif %}
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end animate slideIn" aria-labelledby="navbarDropdownUserLink"> 
+                                <li><a class="dropdown-item" href="{% url 'perfil' %}"><i class="fas fa-user-cog me-2"></i>Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'editar_perfil' %}"><i class="fas fa-edit me-2"></i>Editar Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item text-danger"><i class="fas fa-sign-out-alt me-2"></i>Cerrar sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}"><i class="fas fa-sign-in-alt me-1"></i>Login</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}"><i class="fas fa-user-plus me-1"></i>Registrarse</a></li>
+                        {% endif %}
+                        <li class="nav-item ms-lg-2">
+                            <button id="darkModeToggle" class="btn custom-nav-btn" title="Cambiar modo de tema">
+                                <i class="fas fa-moon d-none d-dark-mode-block"></i> 
+                                <i class="fas fa-sun d-light-mode-block"></i>     
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
     <main class="container my-4">
         {% block content %}
         {% endblock %}
     </main>
-    <footer class="bg-light text-center py-3"> {# El footer original tiene bg-light #}
-        <p class="mb-0">&copy; {% now "Y" %} Your Website. All rights reserved.</p> {# Usé mb-0 para quitar margen inferior al p, y {% now "Y" %} para el año actual #}
+
+    <footer class="bg-light text-center py-3 mt-auto">
+        <p class="mb-0">&copy; {% now "Y" %} GestorPro. Todos los derechos reservados.</p>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body; // Guardamos una referencia al body
+        const body = document.body;
+        const sunIcon = darkModeToggle.querySelector('.fa-sun');
+        const moonIcon = darkModeToggle.querySelector('.fa-moon');
 
-        // Función para aplicar/quitar el modo oscuro y guardar preferencia
         function setDarkMode(isDark) {
             if (isDark) {
                 body.classList.add('dark-mode');
-                darkModeToggle.textContent = 'Modo Claro';
-                localStorage.setItem('darkMode', 'enabled'); // Guardar preferencia
+                sunIcon.classList.add('d-none'); // Ocultar sol
+                moonIcon.classList.remove('d-none'); // Mostrar luna
+                localStorage.setItem('darkMode', 'enabled');
             } else {
                 body.classList.remove('dark-mode');
-                darkModeToggle.textContent = 'Modo Oscuro';
-                localStorage.setItem('darkMode', 'disabled'); // Guardar preferencia
+                sunIcon.classList.remove('d-none'); // Mostrar sol
+                moonIcon.classList.add('d-none'); // Ocultar luna
+                localStorage.setItem('darkMode', 'disabled');
             }
         }
 
-        // Al hacer clic en el botón
         darkModeToggle.addEventListener('click', () => {
             setDarkMode(!body.classList.contains('dark-mode'));
         });
 
-        // Al cargar la página, verificar la preferencia guardada
+        // Aplicar el tema al cargar la página
         if (localStorage.getItem('darkMode') === 'enabled') {
             setDarkMode(true);
         } else {
-            setDarkMode(false); // Por defecto o si está deshabilitado
+            setDarkMode(false); 
+        }
+
+        // Animación de ítems del navbar al mostrarse el menú colapsado
+        var navbarCollapse = document.getElementById('navbarNavContent')
+        if (navbarCollapse) {
+            navbarCollapse.addEventListener('show.bs.collapse', function () {
+                var navItems = this.querySelectorAll('.navbar-nav > .nav-item');
+                navItems.forEach(function(item) {
+                    item.style.opacity = '0'; // Reset para re-animar
+                    item.style.transform = 'translateY(-10px)';
+                    // La animación CSS se encargará del resto
+                });
+            });
         }
     </script>
 </body>

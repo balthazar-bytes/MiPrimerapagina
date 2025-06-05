@@ -1,133 +1,272 @@
 {% extends "cursos/base.html" %}
 {% load static %}
 
-{% block title %}About me{% endblock %}
+{% block title %}Sobre Mí - Balthazar Martinez Rial{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg border-0 animate__animated animate__fadeIn">
-                <div class="card-body">
-                    <h2 class="card-title text-center mb-4">About me</h2>
-                    <p class="card-text fs-5">
-                        Hola, buenos días/tardes/noches, mi nombre es <strong>Balthazar Martinez Rial</strong>. Soy estudiante de ingeniería en informática y también estudio programación de forma autodidacta a través de cursos, videos, artículos, etc.<br>
-                        Actualmente trabajo en una empresa llamada <strong>uali</strong> como Data Scientist Jr., donde ya han pasado un total de 6 meses desde mi ingreso.
-                    </p>
-                </div>
+
+<div class="container my-5 card-fade-in">
+    <div class="row align-items-center">
+        <div class="col-lg-8">
+            
+            <div class="animated-name mb-3">
+                {% for char in "Balthazar" %}
+                    <span class="char-wrapper"><h1>{{ char }}</h1></span>
+                {% endfor %}
+                <span class="char-wrapper space"><h1>&nbsp;</h1></span>
+                {% for char in "Martinez" %}
+                    <span class="char-wrapper"><h1>{{ char }}</h1></span>
+                {% endfor %}
+                 <span class="char-wrapper space"><h1>&nbsp;</h1></span>
+                {% for char in "Rial" %}
+                    <span class="char-wrapper"><h1>{{ char }}</h1></span>
+                {% endfor %}
             </div>
+
+            <p class="lead text-primary fw-normal">Estudiante de Ingeniería, Data Scientist Jr. y Desarrollador Backend en formación.</p>
+            <p class="text-muted">
+                Apasionado por resolver problemas a través del código, con un enfoque en el ecosistema de Python y un interés creciente por la infraestructura y el despliegue de aplicaciones.
+            </p>
+            <div class="mt-4">
+                <a href="https://github.com/balthazar-bytes" target="_blank" class="btn btn-dark btn-lg me-2 btn-icon-glow">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+                <a href="#experiencia" class="btn btn-outline-secondary btn-lg btn-subtle-glow">Ver Experiencia</a>
+            </div>
+        </div>
+        <div class="col-lg-4 text-center d-none d-lg-block">
+            <img src="{% static 'cursos/img/default_avatar.png' %}" 
+                 class="img-fluid rounded-circle shadow-lg profile-pic-glow" 
+                 alt="Foto de Balthazar Martinez Rial"
+                 style="max-width: 250px; border: 5px solid rgba(255,255,255,0.8);"
+                 onerror="this.onerror=null; this.src='https://placehold.co/250x250/EBF0F5/7F94AA?text=Tu+Foto';">
         </div>
     </div>
 </div>
-{% load static %} {# Asegúrate que esto esté al inicio de tu plantilla si no está en un base.html del que heredas #}
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8 col-md-10">
+<hr class="my-5 decorative-hr">
 
-            <div class="card shadow-sm border-0 mb-4 animate__animated animate__fadeInUp">
-                <div class="card-header bg-primary text-white">
-                    <h3 class="card-title mb-0 text-center">Tecnologías que Utilizo</h3>
+<div class="container my-5">
+    <div class="row g-5">
+        <div class="col-lg-7">
+            <div class="mb-5 card-fade-in" style="animation-delay: 0.2s;">
+                <h2 class="border-bottom pb-2 mb-3"><i class="fas fa-user-astronaut text-primary me-2"></i>Mi Historia</h2>
+                <p>
+                    ¡Hola! Soy <strong>Balthazar Martinez Rial</strong>, un estudiante de Ingeniería en Informática que descubrió su pasión por la programación de forma autodidacta. Mi curiosidad me lleva a explorar constantemente nuevas tecnologías a través de cursos, artículos y, sobre todo, construyendo proyectos.
+                </p>
+                <p>
+                    Esta curiosidad me abrió las puertas a mi primer rol en la industria tecnológica como <strong>Data Scientist Jr.</strong> en la increíble empresa <strong>uali</strong>, donde he estado aplicando y expandiendo mis conocimientos durante los últimos 6 meses.
+                </p>
+            </div>
+
+            <div class="card-fade-in" style="animation-delay: 0.4s;">
+                <h2 class="border-bottom pb-2 mb-3"><i class="fas fa-crosshairs text-primary me-2"></i>Mi Foco Profesional</h2>
+                <p>
+                    Actualmente, mi principal interés es el **desarrollo Backend con Python**, profundizando en frameworks como Django para construir aplicaciones robustas y escalables. Sin embargo, entiendo la importancia de tener una visión completa del ciclo de vida del software, por lo que también dedico tiempo a aprender sobre:
+                </p>
+                <ul class="list-styled">
+                    <li><strong>Frontend:</strong> Para entender cómo se consume una API y mejorar la experiencia de usuario.</li>
+                    <li><strong>Bases de Datos:</strong> Porque los datos son el corazón de cualquier aplicación.</li>
+                    <li><strong>DevOps:</strong> Para aprender sobre automatización, despliegue y mantenimiento de infraestructura.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card shadow-sm border-0 sticky-top card-fade-in" style="top: 2rem; animation-delay: 0.6s;">
+                <div class="card-header bg-dark text-white text-center">
+                    <h3 class="mb-0">Tecnologías</h3>
                 </div>
                 <div class="card-body p-4">
-                    <div class="row g-4 justify-content-center">
-
-                        <!-- Lenguajes de Programación -->
-                        <div class="col-12 mb-3">
-                            <h5 class="mb-3 text-center border-bottom pb-2">Lenguajes de Programación</h5>
-                        </div>
-                        <div class="col-4 col-md-3 d-flex justify-content-center">
-                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite">
-                                <img src="{% static 'cursos/img/c.png' %}" alt="C" width="48" height="48" class="mb-2">
-                                <div class="tool-label">C</div>
-                            </div>
-                        </div>
-                        <div class="col-4 col-md-3 d-flex justify-content-center">
-                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-1s">
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-4 d-flex justify-content-center">
+                            <div class="tool-card">
                                 <img src="{% static 'cursos/img/python.png' %}" alt="Python" width="48" height="48" class="mb-2">
                                 <div class="tool-label">Python</div>
                             </div>
                         </div>
-                        <div class="col-4 col-md-3 d-flex justify-content-center">
-                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-2s">
-                                <img src="{% static 'cursos/img/sql.png' %}" alt="SQL" width="48" height="48" class="mb-2">
-                                <div class="tool-label">SQL</div>
-                            </div>
-                        </div>
-
-                        <!-- Frameworks -->
-                        <div class="col-12 mt-4 mb-3">
-                            <h5 class="mb-3 text-center border-bottom pb-2">Frameworks</h5>
-                        </div>
-                        <div class="col-4 col-md-3 d-flex justify-content-center">
-                            <div class="tool-card led-glow animate__animated animate__pulse animate__infinite animate__delay-3s">
+                        <div class="col-4 d-flex justify-content-center">
+                            <div class="tool-card">
                                 <img src="{% static 'cursos/img/django.png' %}" alt="Django" width="48" height="48" class="mb-2">
                                 <div class="tool-label">Django</div>
                             </div>
                         </div>
-
+                        <div class="col-4 d-flex justify-content-center">
+                            <div class="tool-card">
+                                <img src="{% static 'cursos/img/sql.png' %}" alt="SQL" width="48" height="48" class="mb-2">
+                                <div class="tool-label">SQL</div>
+                            </div>
+                        </div>
+                        <div class="col-4 d-flex justify-content-center">
+                            <div class="tool-card">
+                                <img src="{% static 'cursos/img/c.png' %}" alt="C" width="48" height="48" class="mb-2">
+                                <div class="tool-label">C</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card shadow-sm border-0 animate__animated animate__fadeInUp text-center">
-                 <div class="card-header bg-dark text-white">
-                    <h3 class="card-title mb-0">Mi GitHub</h3>
-                </div>
-                <div class="card-body p-4">
-                    <p class="mb-3">¡Conecta conmigo y explora mis proyectos!</p>
-                    <a href="https://github.com/balthazar-bytes" target="_blank" class="btn btn-outline-dark btn-lg d-inline-flex align-items-center">
-                        <img src="{% static 'cursos/img/github.png' %}" alt="GitHub" width="28" height="28" class="me-2">
-                        Visita mi Perfil
-                    </a>
-                </div>
-            </div>
-
         </div>
     </div>
 </div>
 
+<hr class="my-5 decorative-hr">
+
+<div id="experiencia" class="container my-5 card-fade-in">
+    <div class="text-center mb-5">
+        <h2 class="display-6">Experiencia Profesional</h2>
+        <p class="lead text-muted">Donde pongo en práctica mis habilidades.</p>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+            <div class="card card-body shadow border-0 p-4 experience-card-glow">
+                <div class="row align-items-center">
+                    <div class="col-md-2 text-center mb-3 mb-md-0">
+                        <img src="{% static 'cursos/img/uali.png' %}" alt="Uali Logo" class="img-fluid" style="max-height: 60px;">
+                    </div>
+                    <div class="col-md-10">
+                        <h4 class="mb-1">Data Scientist Jr. en Uali</h4>
+                        <p class="text-muted mb-2">Últimos 6 meses</p>
+                        <p class="mb-0">
+                            Como parte del equipo de datos, he trabajado en proyectos de análisis, desarrollado scripts para la automatización de reportes y manipulación de imágenes, y gestionado flujos de datos desde la nube de AWS S3 como parte de un equipo de etiquetado de imágenes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'cursos/includes/animations.html' %}
+
 <style>
-.tool-card {
-    background: #181c24;
-    border-radius: 18px;
-    box-shadow: 0 0 16px 2px #00fff7, 0 2px 8px rgba(0,0,0,0.15);
-    padding: 24px 12px 12px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: box-shadow 0.3s, transform 0.3s;
-    position: relative;
-}
-.tool-card:hover {
-    box-shadow: 0 0 32px 8px #00fff7, 0 4px 16px rgba(0,0,0,0.25);
-    transform: translateY(-6px) scale(1.05);
-}
-.led-glow::before {
-    content: '';
-    position: absolute;
-    top: 8px; left: 50%;
-    transform: translateX(-50%);
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #00fff7 60%, transparent 100%);
-    filter: blur(2px);
-    opacity: 0.7;
-    z-index: 1;
-    animation: led-blink 2s infinite alternate;
-}
-@keyframes led-blink {
-    0% { opacity: 0.7; }
-    100% { opacity: 1; }
-}
-.tool-label {
-    color: #fff;
-    font-weight: 600;
-    margin-top: 8px;
-    letter-spacing: 1px;
-    text-shadow: 0 0 8px #00fff7;
-}
+    /* --- Estilos para Nombre Animado --- */
+    .animated-name {
+        display: flex;
+        justify-content: start;
+        flex-wrap: wrap;
+        text-transform: uppercase;
+        font-family: 'Montserrat', sans-serif;
+    }
+    .animated-name .char-wrapper h1 {
+        font-weight: 900;
+        font-size: 3.2rem; /* Tamaño ajustado para el layout */
+        line-height: 1;
+        margin: 0;
+        color: transparent;
+        -webkit-text-stroke: 1.5px var(--bs-primary);
+        text-shadow: none;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        cursor: pointer;
+    }
+    .dark-mode .animated-name .char-wrapper h1 {
+        -webkit-text-stroke: 1.5px var(--bs-blue); /* Color de Bootstrap para modo oscuro */
+    }
+    .animated-name .char-wrapper.space {
+        width: 1.2rem; /* Espacio entre palabras */
+    }
+    .animated-name .char-wrapper:hover h1 {
+        transform: scale(1.4) translateY(-10px);
+        color: var(--bs-primary);
+        -webkit-text-stroke: 1.5px transparent;
+        text-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    .dark-mode .animated-name .char-wrapper:hover h1 {
+        color: var(--bs-blue);
+        text-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* --- Resto de los estilos (los que ya tenías) --- */
+    .profile-pic-glow { /* ... */ } 
+    /* ... (todos los demás estilos de la respuesta anterior) ... */
+
+    .hero-title-glow {
+        animation: subtleGlow 3s ease-in-out infinite alternate;
+    }
+    @keyframes subtleGlow {
+        from { opacity: 0.8; }
+        to { opacity: 1; }
+    }
+    .btn-icon-glow:hover i {
+        animation: iconPulse 0.8s ease-in-out;
+    }
+    .btn-subtle-glow:hover {
+        box-shadow: 0 0 15px rgba(0,0,0,0.15);
+    }
+    @keyframes iconPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+    .decorative-hr {
+        border: 0;
+        height: 2px;
+        background-image: linear-gradient(to right, rgba(0,0,0,0), rgba(0, 123, 255, 0.75), rgba(0,0,0,0));
+    }
+    .dark-mode .decorative-hr {
+        background-image: linear-gradient(to right, rgba(255,255,255,0), rgba(138, 180, 248, 0.75), rgba(255,255,255,0));
+    }
+    .tool-card {
+        background: #2c3e50;
+        color: #ecf0f1;
+        border-radius: 12px;
+        padding: 20px 10px;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    .tool-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+        transform: skewX(-25deg);
+        transition: left 0.7s ease-in-out;
+    }
+    .tool-card:hover {
+        transform: translateY(-8px) scale(1.05);
+        box-shadow: 0 10px 25px rgba(44, 62, 80, 0.3);
+    }
+    .tool-card:hover::before {
+        left: 150%;
+    }
+    .tool-label {
+        font-weight: 500;
+        font-size: 0.85rem;
+        margin-top: 8px;
+        text-align: center;
+    }
+    .list-styled {
+        list-style: none;
+        padding-left: 0;
+    }
+    .list-styled li {
+        padding-left: 1.5em;
+        text-indent: -1.5em;
+        margin-bottom: 0.5em;
+    }
+    .list-styled li::before {
+        content: "✨";
+        margin-right: 0.5em;
+    }
+    .content-section-glow:hover, .experience-card-glow:hover {
+        box-shadow: 0 0 25px rgba(0, 123, 255, 0.1);
+    }
+    .dark-mode .content-section-glow:hover, .dark-mode .experience-card-glow:hover {
+         box-shadow: 0 0 25px rgba(138, 180, 248, 0.15);
+    }
+
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 {% endblock %}
+```
 

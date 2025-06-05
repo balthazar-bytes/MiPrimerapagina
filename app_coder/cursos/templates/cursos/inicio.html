@@ -1,149 +1,241 @@
 {% extends "cursos/base.html" %}
 {% load static %}
 
-{% block title %}Inicio{% endblock %}
+{% block title %}Inicio - Gestión de Formularios{% endblock %}
 
 {% block content %}
 <style>
+    /* Estilos generales del body (heredados o específicos) */
     body {
-        background-color: #f0f8ff;
+        /* background-color: #f0f8ff; */ /* Ya debería estar en base.html */
         font-family: Arial, sans-serif;
         transition: background-color 0.3s, color 0.3s;
     }
     .dark-mode {
-        background-color: #121212;
-        color: #ffffff;
+        /* background-color: #121212; */ /* Ya debería estar en base.html */
+        /* color: #ffffff; */
     }
-    .form-container {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        max-width: 500px;
-        margin: auto;
+
+    /* Contenedor principal de la página de inicio para animación de entrada */
+    .inicio-container {
+        /* La animación card-fade-in se aplicará aquí */
     }
-    .dark-mode .form-container {
-        background: #1e1e1e;
-        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.1);
-    }
+
+    /* Estilos para el selector de formularios */
     .form-selector {
         text-align: center;
         margin-bottom: 30px;
     }
-    .hidden {
-        display: none;
+    .form-selector .btn {
+        margin: 0 5px;
+        transition: all 0.3s ease; /* Transición para botones */
     }
+    .form-selector .btn.active-form-button { /* Estilo para el botón activo */
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+    }
+    .dark-mode .form-selector .btn.active-form-button {
+        background-color: #8ab4f8; /* Un azul más claro para modo oscuro */
+        color: #121212;
+        box-shadow: 0 0 10px rgba(138, 180, 248, 0.5);
+    }
+
+
+    /* Wrapper para cada formulario, para controlar la animación */
+    .form-wrapper {
+        opacity: 0;
+        transform: translateY(20px) scale(0.98); /* Inicia ligeramente abajo y escalado */
+        transform-origin: top;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.4s ease-out, 
+                    transform 0.4s ease-out, 
+                    max-height 0.5s ease-in-out; /* Transición suave para altura */
+        margin-bottom: 20px; /* Espacio entre formularios si se mostraran varios (aunque solo uno es visible) */
+        
+        /* Estilos de tarjeta que tenías en form-container, ahora en form-wrapper */
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .dark-mode .form-wrapper {
+        background: #1e1e1e;
+        box-shadow: 0 6px 12px rgba(255, 255, 255, 0.08);
+        border: 1px solid #2a2a2a;
+    }
+
+    .form-wrapper.active {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        max-height: 1500px; /* Altura suficiente para el contenido del formulario. Ajustar si es necesario. */
+    }
+    
+    /* Estilos para los títulos dentro de los formularios */
+    .form-wrapper h3 {
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eee;
+    }
+    .dark-mode .form-wrapper h3 {
+        color: #e0e0e0;
+        border-bottom-color: #333;
+    }
+
 </style>
-<div class="container mt-5">
-    <h1 class="text-center">Bienvenido a la página de inicio</h1>
-    <p class="text-center">Selecciona el formulario que deseas completar:</p>
+
+<div class="container mt-5 card-fade-in inicio-container"> 
+    <div class="text-center mb-4">
+        <h1 class="display-5">Bienvenido al Portal de Gestión</h1>
+        <p class="lead text-muted">Selecciona el formulario que deseas completar a continuación.</p>
+    </div>
 
     <div class="form-selector">
-        <button type="button" class="btn btn-outline-info" onclick="showForm('alumno')">Alumno</button>
+        <button type="button" id="btn-alumno" class="btn btn-outline-info" onclick="showForm('alumno', this)">Alumno</button>
         {% if user.is_authenticated %}
-            
-        <button type="button" class="btn btn-outline-primary" onclick="showForm('curso')">Curso</button>
-        <button type="button" class="btn btn-outline-success" onclick="showForm('profesor')">Profesor</button>
-                {% endif %}
-
+        <button type="button" id="btn-curso" class="btn btn-outline-primary" onclick="showForm('curso', this)">Curso</button>
+        <button type="button" id="btn-profesor" class="btn btn-outline-success" onclick="showForm('profesor', this)">Profesor</button>
+        {% endif %}
     </div>
 
     <!-- Formulario Alumno -->
-    <form id="form-alumno" method="post" action="{% url 'estudiante_form' %}" class="needs-validation form-container " novalidate>
-        {% csrf_token %}
-        <h3 class="text-center">Formulario Alumno</h3>
-        <div class="mb-3">
-            <label for="id_nombre_alum" class="form-label">Nombre:</label>
-            <input type="text" id="id_nombre_alum" name="nombre" class="form-control" maxlength="40">
-        </div>
-        <div class="mb-3">
-            <label for="id_apellido_alum" class="form-label">Apellido:</label>
-            <input type="text" id="id_apellido_alum" name="apellido" class="form-control" maxlength="40">
-        </div>
-        <div class="mb-3">
-            <label for="id_email_alum" class="form-label">Email:</label>
-            <input type="email" id="id_email_alum" name="email" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="id_fecha_nacimiento_alum" class="form-label">Fecha de nacimiento:</label>
-            <input type="date" id="id_fecha_nacimiento_alum" name="fecha_nacimiento" class="form-control">
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-info">Enviar</button>
-        </div>
-    </form>
-</div>
+    <div id="form-alumno-wrapper" class="form-wrapper">
+        <form id="form-alumno" method="post" action="{% url 'estudiante_form' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <h3 class="text-center">Formulario Alumno</h3>
+            <div class="mb-3">
+                <label for="id_nombre_alum" class="form-label">Nombre:</label>
+                <input type="text" id="id_nombre_alum" name="nombre" class="form-control" maxlength="40">
+            </div>
+            <div class="mb-3">
+                <label for="id_apellido_alum" class="form-label">Apellido:</label>
+                <input type="text" id="id_apellido_alum" name="apellido" class="form-control" maxlength="40">
+            </div>
+            <div class="mb-3">
+                <label for="id_email_alum" class="form-label">Email:</label>
+                <input type="email" id="id_email_alum" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="id_fecha_nacimiento_alum" class="form-label">Fecha de nacimiento:</label>
+                <input type="date" id="id_fecha_nacimiento_alum" name="fecha_nacimiento" class="form-control">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-info btn-submit-hover">Enviar Alumno</button>
+            </div>
+        </form>
+    </div>
+
+    {% if user.is_authenticated %}
     <!-- Formulario Curso -->
-    <form id="form-curso" method="post" action="{% url 'curso_form' %}" class="needs-validation form-container hidden" novalidate>
-        {% csrf_token %}
-        <h3 class="text-center">Formulario Curso</h3>
-        <div class="mb-3">
-            <label for="id_nombre" class="form-label">Nombre del curso:</label>
-            <input type="text" id="id_nombre" name="nombre" class="form-control" maxlength="40" required>
-        </div>
-        <div class="mb-3">
-            <label for="id_camada" class="form-label">Camada:</label>
-            <input type="number" id="id_camada" name="camada" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="id_comision" class="form-label">Comisión:</label>
-            <input type="text" id="id_comision" name="comision" class="form-control" maxlength="10" required>
-        </div>
-        <div class="mb-3">
-            <label for="id_anio" class="form-label">Año:</label>
-            <input type="number" id="id_anio" name="anio" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="id_fecha_inicio" class="form-label">Fecha de inicio:</label>
-            <input type="date" id="id_fecha_inicio" name="fecha_inicio" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label for="id_fecha_fin" class="form-label">Fecha de fin:</label>
-            <input type="date" id="id_fecha_fin" name="fecha_fin" class="form-control" required>
-        </div>
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary">Enviar</button>
-        </div>
-    </form>
+    <div id="form-curso-wrapper" class="form-wrapper">
+        <form id="form-curso" method="post" action="{% url 'curso_form' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <h3 class="text-center">Formulario Curso</h3>
+            <div class="mb-3">
+                <label for="id_nombre_curso" class="form-label">Nombre del curso:</label>
+                <input type="text" id="id_nombre_curso" name="nombre" class="form-control" maxlength="40" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_camada_curso" class="form-label">Camada:</label>
+                <input type="number" id="id_camada_curso" name="camada" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_comision_curso" class="form-label">Comisión:</label>
+                <input type="text" id="id_comision_curso" name="comision" class="form-control" maxlength="10" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_anio_curso" class="form-label">Año:</label>
+                <input type="number" id="id_anio_curso" name="anio" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_fecha_inicio_curso" class="form-label">Fecha de inicio:</label>
+                <input type="date" id="id_fecha_inicio_curso" name="fecha_inicio" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_fecha_fin_curso" class="form-label">Fecha de fin:</label>
+                <input type="date" id="id_fecha_fin_curso" name="fecha_fin" class="form-control" required>
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-submit-hover">Enviar Curso</button>
+            </div>
+        </form>
+    </div>
 
     <!-- Formulario Profesor -->
-    <form id="form-profesor" method="post" action="{% url 'profesor_form' %}" class="needs-validation form-container hidden" novalidate>
-        {% csrf_token %}
-        <h3 class="text-center">Formulario Profesor</h3>
-        <div class="mb-3">
-            <label for="id_nombre_prof" class="form-label">Nombre:</label>
-            <input type="text" id="id_nombre_prof" name="nombre" class="form-control" maxlength="40">
-        </div>
-        <div class="mb-3">
-            <label for="id_apellido_prof" class="form-label">Apellido:</label>
-            <input type="text" id="id_apellido_prof" name="apellido" class="form-control" maxlength="40">
-        </div>
-        <div class="mb-3">
-            <label for="id_email_prof" class="form-label">Email:</label>
-            <input type="email" id="id_email_prof" name="email" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="id_fecha_nacimiento_prof" class="form-label">Fecha de nacimiento:</label>
-            <input type="date" id="id_fecha_nacimiento_prof" name="fecha_nacimiento" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label for="id_especialidad_prof" class="form-label">Especialidad:</label>
-            <input type="text" id="id_especialidad_prof" name="especialidad" class="form-control" maxlength="50">
-        </div>
-        
-        <div class="text-center">
-            <button type="submit" class="btn btn-success">Enviar</button>
-        </div>
-    </form>
+    <div id="form-profesor-wrapper" class="form-wrapper">
+        <form id="form-profesor" method="post" action="{% url 'profesor_form' %}" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <h3 class="text-center">Formulario Profesor</h3>
+            <div class="mb-3">
+                <label for="id_nombre_prof" class="form-label">Nombre:</label>
+                <input type="text" id="id_nombre_prof" name="nombre" class="form-control" maxlength="40">
+            </div>
+            <div class="mb-3">
+                <label for="id_apellido_prof" class="form-label">Apellido:</label>
+                <input type="text" id="id_apellido_prof" name="apellido" class="form-control" maxlength="40">
+            </div>
+            <div class="mb-3">
+                <label for="id_email_prof" class="form-label">Email:</label>
+                <input type="email" id="id_email_prof" name="email" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="id_fecha_nacimiento_prof" class="form-label">Fecha de nacimiento:</label>
+                <input type="date" id="id_fecha_nacimiento_prof" name="fecha_nacimiento" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="id_especialidad_prof" class="form-label">Especialidad:</label>
+                <input type="text" id="id_especialidad_prof" name="especialidad" class="form-control" maxlength="50">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-submit-hover">Enviar Profesor</button>
+            </div>
+        </form>
+    </div>
+    {% endif %}
 
-    
+</div>
 
 <script>
-function showForm(formType) {
-    document.getElementById('form-alumno').classList.add('hidden');
-    document.getElementById('form-curso').classList.add('hidden');
-    document.getElementById('form-profesor').classList.add('hidden');
-    document.getElementById('form-' + formType).classList.remove('hidden');
+function showForm(formType, clickedButton) {
+    // Ocultar todos los wrappers de formularios y quitar clase activa de botones
+    const formWrappers = document.querySelectorAll('.form-wrapper');
+    formWrappers.forEach(wrapper => {
+        wrapper.classList.remove('active');
+    });
+
+    const formButtons = document.querySelectorAll('.form-selector .btn');
+    formButtons.forEach(button => {
+        button.classList.remove('active-form-button');
+    });
+
+    // Mostrar el wrapper del formulario seleccionado
+    const selectedWrapper = document.getElementById('form-' + formType + '-wrapper');
+    if (selectedWrapper) {
+        // Pequeño retraso para asegurar que la animación de ocultar termine si es necesario
+        // o para que la animación de mostrar se dispare correctamente
+        setTimeout(() => {
+            selectedWrapper.classList.add('active');
+        }, 50); // Un retraso mínimo puede ayudar
+    }
+
+    // Añadir clase activa al botón clickeado
+    if (clickedButton) {
+        clickedButton.classList.add('active-form-button');
+    }
 }
+
+// Mostrar el primer formulario (alumno) por defecto al cargar la página
+// y marcar su botón como activo.
+document.addEventListener('DOMContentLoaded', function() {
+    const initialFormButton = document.getElementById('btn-alumno');
+    if (initialFormButton) {
+        showForm('alumno', initialFormButton);
+    }
+});
 </script>
+
+{% include 'cursos/includes/animations.html' %}
 {% endblock %}

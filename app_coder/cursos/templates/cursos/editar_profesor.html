@@ -1,6 +1,6 @@
 {% extends "cursos/base.html" %}
 {% load static %}
-{% block title %}Editando a {{ profesor.nombre }} {{ profesor.apellido }}{% endblock %}
+{% block title %}Editando Profesor: {{ profesor.nombre }} {{ profesor.apellido }}{% endblock %}
 
 {% block content %}
 <div class="container mt-5 mb-5">
@@ -8,17 +8,12 @@
         <div class="col-md-8 col-lg-7">
             <div class="card shadow-lg border-0 card-fade-in">
                 <div class="card-header bg-warning text-dark text-center">
-                    {# Usamos el objeto 'profesor' que pasas desde la vista para un título más descriptivo #}
                     <h3 class="mb-0">Editando a: {{ profesor.nombre }} {{ profesor.apellido }}</h3>
                 </div>
                 <div class="card-body p-4">
                     <form method="POST">
                         {% csrf_token %}
-                        
-                        {# Es mucho más limpio y seguro renderizar el formulario con Django #}
-                        {# Esto crea los labels y los inputs correctamente por ti #}
                         {{ form.as_p }}
-
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
                             <a href="{% url 'profesores' %}" class="btn btn-secondary me-md-2">Cancelar</a>
                             <button type="submit" class="btn btn-primary btn-submit-hover">Guardar Cambios</button>
@@ -29,39 +24,5 @@
         </div>
     </div>
 </div>
-
-<style>
-    /* Animación sutil de entrada para la tarjeta */
-    .card-fade-in {
-        animation: fadeIn 0.6s ease-out;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    /* Efecto de "latido" y sombra al pasar el mouse sobre el botón de guardar */
-    .btn-submit-hover {
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
-
-    .btn-submit-hover:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.35);
-    }
-    
-    /* Aseguramos que los campos del formulario usen todo el ancho y tengan buen aspecto */
-    {{ form.media }}
-    .form-control:focus {
-        border-color: #ffc107;
-        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5);
-    }
-</style>
+{% include 'cursos/includes/animations.html' %}
 {% endblock %}

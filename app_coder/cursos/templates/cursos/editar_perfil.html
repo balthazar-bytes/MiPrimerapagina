@@ -1,16 +1,32 @@
 {% extends "cursos/base.html" %}
 {% load static %}
-
-{% block title %}Editar{% endblock %}
+{% block title %}Editar Perfil{% endblock %}
 
 {% block content %}
-  <h2>Editar Perfil</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-      {{ form.as_table }}
-      {{ avatar_form.as_table }}
-    </table>
-    <button type="submit">Guardar Cambios</button>
-  </form>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg border-0 card-fade-in">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3 class="mb-0">Editar Mi Perfil</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p class="fw-bold">Datos del Usuario:</p>
+                        {{ form.as_p }}
+                        <hr>
+                        <p class="fw-bold">Cambiar Avatar:</p>
+                        {{ avatar_form.as_p }}
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'perfil' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary btn-submit-hover">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'cursos/includes/animations.html' %}
 {% endblock %}
