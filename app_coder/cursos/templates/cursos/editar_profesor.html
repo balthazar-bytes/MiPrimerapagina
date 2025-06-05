@@ -1,22 +1,67 @@
 {% extends "cursos/base.html" %}
 {% load static %}
-{% block title %}Actualizar Profesor{% endblock %}
+{% block title %}Editando a {{ profesor.nombre }} {{ profesor.apellido }}{% endblock %}
 
 {% block content %}
-    <form actio="" method="POST">
-            {% csrf_token %}
-            <p>Nombre: </p>
-            <input type="text" name="nombre" value="{{ profesores.nombre }}" required>
-            <p>Apellido: </p>
-            <input type="text" name="apellido" value="{{ profesores.apellido }}" required>
-            <p>Email: </p>
-            <input type="email" name="email" value="{{ profesores.email }}" required>
-            <p>Fecha de Nacimiento: </p>
-            <input type="date" name="fecha_nacimiento" value="{{ profesores.fecha_nacimiento }}" required>
-            <p>Especialidad</p>
-            <input type="text" name="Especialidad" value="{{ profesores.especialidad }}" required>
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg border-0 card-fade-in">
+                <div class="card-header bg-warning text-dark text-center">
+                    {# Usamos el objeto 'profesor' que pasas desde la vista para un título más descriptivo #}
+                    <h3 class="mb-0">Editando a: {{ profesor.nombre }} {{ profesor.apellido }}</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST">
+                        {% csrf_token %}
+                        
+                        {# Es mucho más limpio y seguro renderizar el formulario con Django #}
+                        {# Esto crea los labels y los inputs correctamente por ti #}
+                        {{ form.as_p }}
 
-            <button type="submit">Guardar Cambios</button>
-        </form>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                            <a href="{% url 'profesores' %}" class="btn btn-secondary me-md-2">Cancelar</a>
+                            <button type="submit" class="btn btn-primary btn-submit-hover">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<style>
+    /* Animación sutil de entrada para la tarjeta */
+    .card-fade-in {
+        animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Efecto de "latido" y sombra al pasar el mouse sobre el botón de guardar */
+    .btn-submit-hover {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .btn-submit-hover:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.35);
+    }
+    
+    /* Aseguramos que los campos del formulario usen todo el ancho y tengan buen aspecto */
+    {{ form.media }}
+    .form-control:focus {
+        border-color: #ffc107;
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.5);
+    }
+</style>
 {% endblock %}

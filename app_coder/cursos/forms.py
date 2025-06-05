@@ -7,16 +7,17 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth.models import User
 
 
+
 class CursoForm(forms.ModelForm):
-    curso = forms.ModelChoiceField(queryset=Curso.objects.all(), required=False)
-    comision = forms.CharField(max_length=40, required=False)
-    anio = forms.IntegerField(required=False)
-    fecha_inicio = forms.DateField(required=False)
-    fecha_fin = forms.DateField(required=False)
-    
     class Meta:
         model = Curso
-        fields = ['curso', 'comision', 'anio', 'fecha_inicio', 'fecha_fin']
+        fields = ['nombre', 'camada', 'comision', 'anio', 'fecha_inicio', 'fecha_fin']
+        widgets = {
+            'fecha_inicio': forms.DateInput(attrs={'type': 'date'}),
+            'fecha_fin': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+# ... (El resto de tus clases de formulario: ProfesorForm, EstudianteForm, etc., van aquí) ...
     
     
 class ProfesorForm(forms.ModelForm):

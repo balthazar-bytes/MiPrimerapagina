@@ -1,0 +1,84 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Detalle{% endblock %}
+
+{% block content %}
+<!-- Animaciones CSS personalizadas -->
+<style>
+    .bounce-in-down {
+        animation: bounceInDown 1s;
+    }
+    @keyframes bounceInDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-300px);
+        }
+        60% {
+            opacity: 1;
+            transform: translateY(30px);
+        }
+        80% {
+            transform: translateY(-10px);
+        }
+        100% {
+            transform: translateY(0);
+        }
+    }
+    .fade-in-right {
+        opacity: 0;
+        animation: fadeInRight 0.8s forwards;
+    }
+    .fade-in-right:nth-child(1) { animation-delay: 0.1s; }
+    .fade-in-right:nth-child(2) { animation-delay: 0.2s; }
+    .fade-in-right:nth-child(3) { animation-delay: 0.6s; }
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(60px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    .btn-anim {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-anim:hover {
+        transform: scale(1.07);
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="card bounce-in-down">
+        <div class="card-header">
+            <h4>Detalle del Curso</h4>
+        </div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item fade-in-right">
+                <strong>Nombre:</strong> {{ object.nombre }}
+            </li>
+            <li class="list-group-item fade-in-right">
+                <strong>Camada:</strong> {{ object.camada }}
+            </li>
+            <li class="list-group-item fade-in-right">
+                <strong>año:</strong> {{ object.anio }}
+            </li>
+            <li class="list-group-item fade-in-right">
+                <strong>Comision:</strong> {{ object.comision }}
+            </li>
+            <li class="list-group-item fade-in-right">
+                <strong>Fecha de inicio:</strong> {{ object.fecha_inicio }}
+            </li>
+            <li class="list-group-item fade-in-right">
+                <strong>Fecha de finalizacion:</strong> {{ object.fecha_fin }}
+            </li>
+        </ul>
+        <div class="card-body">
+            <a href="{% url 'cursos' %}" class="btn btn-primary btn-anim">Volver</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

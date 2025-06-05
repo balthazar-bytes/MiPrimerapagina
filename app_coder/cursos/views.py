@@ -273,7 +273,31 @@ def editar_profesor(request, pk):
 
 
 '''modificaciones de cursos'''
+def editar_curso(request, pk):
+    curso = Curso.objects.get(pk=pk)  # Recupera el curso de la base de datos
+    if request.method == "POST":
+        mi_formulario = CursoForm(request.POST, instance=curso)
+        if mi_formulario.is_valid():
+            datos = mi_formulario.cleaned_data
+            curso.nombre = datos["nombre"]
+            curso.camada = datos["camada"]
+            curso.comision = datos["comision"]
+            curso.anio = datos["anio"]
+            curso.fecha_inicio = datos["fecha_inicio"]
+            curso.fecha_fin = datos["fecha_fin"]
+            curso.save()
+            cursos = Curso.objects.all()
+            return render(request, "cursos/cursos.html", {"cursos": cursos})  # Redirige a la vista de cursos
+    else:
+        mi_formulario = CursoForm(instance=curso)
+    return render(request, "cursos/editar_curso.html" , {"form": mi_formulario, "curso": curso})
+    
+class CursoDetailView(DetailView):
+    model = Curso
 
+class CursoDeleteView(DeleteView):
+    model = Curso
+    success_url = reverse_lazy("cursos")    
 
 def editar(request,pk):
     estudiante = Estudiante.objects.get(pk=pk)  # Recupera el estudiante de la base de datos

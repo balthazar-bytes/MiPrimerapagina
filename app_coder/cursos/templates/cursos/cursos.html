@@ -41,6 +41,7 @@
                                     <th>Año</th>
                                     <th>Comisión</th>
                                     <th>Fecha de inicio</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,11 +53,16 @@
                                         <td>{{ curso.anio }}</td>
                                         <td>{{ curso.comision }}</td>
                                         <td>{{ curso.fecha_inicio }}</td>
+                                        <td>
+                                            <a href="{% url 'curso_detail' curso.pk %}" class="btn btn-info btn-sm">Detalle</a>
+                                            <a href="{% url 'editar_curso' curso.pk %}" class="btn btn-warning btn-sm">Modificar</a>
+                                            <a href="{% url 'curso_delete' curso.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                        </td>
                                     </tr>
                                     {% endfor %}
                                 {% else %}
                                     <tr>
-                                        <td colspan="5" class="text-center text-muted">No hay cursos registrados.</td>
+                                        <td colspan="6" class="text-center text-muted">No hay cursos registrados.</td>
                                     </tr>
                                 {% endif %}
                             </tbody>
