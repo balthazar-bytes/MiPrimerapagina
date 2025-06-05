@@ -14,9 +14,10 @@ from django.contrib.auth.decorators import login_required
 
 # ... (resto de tus vistas)
 '''Apartado de Usuari'''
-def perfil(request):    
-    return render(request, "cursos/perfil.html", {"usuario": request.user}) 
-
+@login_required
+def perfil(request):
+    avatar = Avatar.objects.filter(user=request.user).first()
+    return render(request, "cursos/perfil.html", {"usuario": request.user, "avatar": avatar})
 
 
 @login_required
