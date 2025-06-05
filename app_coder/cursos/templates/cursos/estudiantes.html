@@ -11,6 +11,27 @@
                 <div class="card-header bg-primary text-white">
                     <h2 class="mb-0 text-center">Lista de Estudiantes</h2>
                 </div>
+                <div class="card-body text-end">
+                    <a href="{% url 'estudiante_form' %}" class="btn btn-success">
+                        Crear Estudiante
+                    </a>
+                </div>
+                <div class="card-body">
+                    <form method="get" action="" class="mb-3">
+                        <div class="input-group w-50 ms-auto">
+                            <input type="text" name="q" class="form-control" placeholder="Buscar curso..." value="{{ request.GET.q }}">
+                            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+                        </div>
+                    </form>
+                    {% if request.GET.q %}
+                        <p class="text-muted mb-0">
+                            Resultados para: "<strong>{{ request.GET.q }}</strong>"
+                            {% if not estudiantes %}
+                                - No se encontraron estudiantes.
+                            {% endif %}
+                        </p>
+                    {% endif %}
+                </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-hover align-middle">
@@ -20,6 +41,7 @@
                                     <th>Apellido</th>
                                     <th>Email</th>
                                     <th>Fecha de Nacimiento</th>
+                                    <th>Edicion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,6 +52,16 @@
                                         <td>{{ estudiante.apellido }}</td>
                                         <td>{{ estudiante.email }}</td>
                                         <td>{{ estudiante.fecha_nacimiento }}</td>
+                                        <td>
+                                            <a href="{% url 'estudiante_detail' estudiante.pk %}" class="btn btn-info btn-sm">Detalle</a>   
+                                            {% if user.is_authenticated %}
+                                                
+                                                                                   
+                                            <a href="{% url 'editar_estudiante' estudiante.pk %}" class="btn btn-warning btn-sm">Cambiar</a>
+                                            <a href="{% url 'estudiante_delete' estudiante.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                                            {% endif %}  
+                                        </td>
+                                        
                                     </tr>
                                     {% endfor %}
                                 {% else %}
@@ -45,4 +77,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

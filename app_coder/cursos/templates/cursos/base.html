@@ -5,67 +5,330 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Base Page{% endblock %}</title>
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {# Si tienes un archivo styles.css general, asegúrate de que también tenga estilos para modo oscuro o que estos no entren en conflicto #}
+    {# <link rel="stylesheet" href="{% static 'css/styles.css' %}"> #}
     <style>
-        body {
-            background-image: url('{% static "images/background.jpg" %}');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-        }
-        body.dark-mode {
-            background-color: #121212 !important;
-            background-image: none;
-            color: #ffffff;
-        }
-        body.dark-mode .navbar {
-            background-color: #333333 !important;
-        }
-        body.dark-mode .bg-light {
-            background-color: #333333 !important;
-            color: #ffffff;
-        }
+    /* Estilos Generales y Modo Claro (Algunos ya los tenías) */
+    body {
+        background-color: #f0f8ff; /* Fondo claro por defecto */
+        font-family: Arial, sans-serif;
+        color: #212529; /* Color de texto oscuro por defecto */
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    .form-container { /* Contenedor de formularios, ejemplo */
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .form-selector {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    /* ---- INICIO DE ESTILOS PARA MODO OSCURO ---- */
+    .dark-mode {
+        background-color: #121212; /* Fondo principal muy oscuro */
+        color: #e0e0e0; /* Color de texto principal claro, no blanco puro para mejor lectura */
+    }
+
+    /* Header y Navbar en Modo Oscuro */
+    .dark-mode .navbar {
+        background-color: #1f1f1f !important; /* Un poco más claro que el body, !important para sobrescribir bg-light de Bootstrap */
+        border-bottom: 1px solid #333; /* Borde sutil */
+    }
+
+    .dark-mode .navbar-brand {
+        color: #e0e0e0 !important;
+    }
+    .dark-mode .navbar-brand:hover {
+        color: #ffffff !important;
+    }
+
+    .dark-mode .navbar-toggler-icon {
+        filter: invert(1) grayscale(100%) brightness(200%); /* Para hacer el ícono del toggler blanco */
+    }
+    
+    .dark-mode .nav-link, 
+    .dark-mode .dropdown-item { /* Enlaces de navegación y items del dropdown */
+        color: #bbbbbb !important; /* Un gris claro para los enlaces */
+    }
+    .dark-mode .nav-link:hover, 
+    .dark-mode .nav-link:focus,
+    .dark-mode .dropdown-item:hover,
+    .dark-mode .dropdown-item:focus {
+        color: #ffffff !important;
+        background-color: #333333 !important; /* Fondo sutil al hacer hover */
+    }
+    .dark-mode .dropdown-menu {
+        background-color: #1f1f1f;
+        border: 1px solid #333;
+    }
+    .dark-mode .dropdown-divider {
+        border-top-color: #333;
+    }
+
+    /* Botones custom de la navbar en modo oscuro */
+    .dark-mode .custom-nav-btn,
+    .dark-mode .custom-nav-btn:visited,
+    .dark-mode .custom-nav-btn:focus {
+        color: #8ab4f8 !important; /* Un azul claro para los botones custom */
+        background-color: transparent !important;
+    }
+    .dark-mode .custom-nav-btn:hover,
+    .dark-mode .custom-nav-btn:active {
+        background-color: rgba(138, 180, 248, 0.2) !important; /* Fondo azulado transparente al hover */
+        color: #a1c2fa !important;
+    }
+    
+    /* Botón de Modo Oscuro/Claro específico */
+    .dark-mode #darkModeToggle {
+        /* Ya cubierto por .custom-nav-btn, pero puedes añadir más especificidad si es necesario */
+    }
+
+
+    /* Tarjetas (Cards) en Modo Oscuro */
+    .dark-mode .card {
+        background-color: #1e1e1e; /* Fondo de tarjeta oscuro */
+        border-color: #333; /* Borde más oscuro */
+        color: #e0e0e0; /* Texto de la tarjeta */
+    }
+    .dark-mode .card-header {
+        background-color: #2a2a2a !important; /* Encabezado de tarjeta un poco diferente */
+        color: #e0e0e0 !important;
+        border-bottom: 1px solid #333;
+    }
+    .dark-mode .card-title {
+        color: #ffffff; /* Títulos de tarjeta más prominentes */
+    }
+    .dark-mode .list-group-item { /* Si usas list groups dentro de cards */
+        background-color: #1e1e1e;
+        border-color: #333;
+        color: #e0e0e0;
+    }
+
+    /* Formularios en Modo Oscuro */
+    .dark-mode .form-container {
+        background: #1e1e1e;
+        box-shadow: 0 4px 6px rgba(255, 255, 255, 0.05); /* Sombra más sutil */
+        color: #e0e0e0;
+    }
+    .dark-mode .form-control {
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border-color: #333;
+    }
+    .dark-mode .form-control:focus {
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border-color: #8ab4f8; /* Color de borde al enfocar, similar a los botones */
+        box-shadow: 0 0 0 0.25rem rgba(138, 180, 248, 0.25);
+    }
+    .dark-mode .form-label {
+        color: #bbbbbb;
+    }
+    .dark-mode .form-select {
+        background-color: #2a2a2a;
+        color: #e0e0e0;
+        border-color: #333;
+    }
+
+    /* Botones Generales de Bootstrap en Modo Oscuro */
+    .dark-mode .btn-primary {
+        background-color: #8ab4f8;
+        border-color: #8ab4f8;
+        color: #121212; /* Texto oscuro para contraste con fondo azul claro */
+    }
+    .dark-mode .btn-primary:hover {
+        background-color: #a1c2fa;
+        border-color: #a1c2fa;
+    }
+    .dark-mode .btn-outline-dark { /* Para tu botón de GitHub */
+        color: #e0e0e0;
+        border-color: #555;
+    }
+    .dark-mode .btn-outline-dark:hover {
+        background-color: #333;
+        color: #ffffff;
+    }
+    .dark-mode .btn-outline-danger { /* Para el botón de cerrar sesión */
+        color: #f28b82;
+        border-color: #f28b82;
+    }
+    .dark-mode .btn-outline-danger:hover {
+        background-color: #f28b82;
+        color: #121212;
+    }
+    /* Añade más estilos para .btn-secondary, .btn-success, etc., si los usas */
+
+
+    /* Footer en Modo Oscuro */
+    .dark-mode footer.bg-light { /* Footer tiene bg-light, necesitamos sobrescribirlo */
+        background-color: #1f1f1f !important;
+        color: #bbbbbb;
+        border-top: 1px solid #333;
+    }
+    .dark-mode footer p {
+        color: #bbbbbb; /* Asegurar que el texto del párrafo en el footer también cambie */
+    }
+
+    /* Enlaces generales en modo oscuro */
+    .dark-mode a {
+        color: #8ab4f8; /* Un color azulado que se destaque */
+    }
+    .dark-mode a:hover {
+        color: #a1c2fa;
+    }
+
+
+    /* ---- FIN DE ESTILOS PARA MODO OSCURO ---- */
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="/">Your Website</a>
+            <div class="container-fluid justify-content-center">
+                <a class="navbar-brand mx-2" href="{% url 'inicio' %}">Your Website</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="/">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/estudiantes">Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/buscar_estudiante">Buscar Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/profesores/">Profesores</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/cursos/">Cursos</a></li>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav align-items-center me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inicio' %}">Inicio</a></li>
+                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'estudiantes' %}">Estudiantes</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}">Buscar Estudiantes</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}">Profesores</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'about_me' %}">About me</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inbox' %}">Mensajes</a></li>
+                        {% endif %}
+                    </ul>
+                    <ul class="navbar-nav align-items-center">
+                        {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle custom-nav-btn d-flex align-items-center" href="#" id="navbarDropdownUserLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if avatar and avatar.imagen %}
+                                    <img src="{{ avatar.imagen.url }}" alt="" class="rounded-circle me-2" width="30" height="30">
+                                {% endif %}
+                                {{ user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownUserLink">
+                                <li><a class="dropdown-item" href="{% url 'perfil' %}">Ver Perfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'editar_perfil' %}">Editar Perfil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="post" action="{% url 'logout' %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="dropdown-item">Cerrar sesión</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                        {% else %}
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}">Registrarse</a></li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <button id="darkModeToggle" class="btn custom-nav-btn ms-2">Modo Oscuro</button>
+                        </li>
                     </ul>
                 </div>
-                <button id="darkModeToggle" class="btn btn-outline-dark ms-3">Modo Oscuro</button>
             </div>
         </nav>
     </header>
+    <style>
+        /* Estilos para tus botones custom-nav-btn (los que ya tenías) */
+        /* Podrías considerar moverlos a tu archivo styles.css si se hacen muy extensos aquí */
+        .custom-nav-btn,
+        .custom-nav-btn:visited,
+        .custom-nav-btn:focus {
+            background-color: transparent !important;
+            color: #007bff !important; /* Color en modo claro */
+            border: none !important;
+            border-radius: 4px !important;
+            padding: 8px 18px !important;
+            margin: 0 4px !important;
+            font-size: 1rem !important;
+            text-align: center !important;
+            min-width: 110px;
+            display: inline-block;
+            transition: background 0.2s, color 0.2s;
+        }
+        .custom-nav-btn:hover,
+        .custom-nav-btn:active {
+            background-color: #007bff !important; /* Fondo en hover modo claro */
+            color: #fff !important;  /* Texto en hover modo claro */
+            text-decoration: none !important;
+        }
+        .navbar-nav .nav-item {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .navbar-nav {
+            flex-direction: row;
+        }
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .custom-nav-btn {
+                width: 100%;
+                margin: 4px 0 !important;
+            }
+        }
+    </style>
     <main class="container my-4">
         {% block content %}
-        <!-- Content goes here -->
         {% endblock %}
     </main>
-    <footer class="bg-light text-center py-3">
-        <p>&copy; 2023 Your Website. All rights reserved.</p>
+    <footer class="bg-light text-center py-3"> {# El footer original tiene bg-light #}
+        <p class="mb-0">&copy; {% now "Y" %} Your Website. All rights reserved.</p> {# Usé mb-0 para quitar margen inferior al p, y {% now "Y" %} para el año actual #}
     </footer>
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body; // Guardamos una referencia al body
+
+        // Función para aplicar/quitar el modo oscuro y guardar preferencia
+        function setDarkMode(isDark) {
+            if (isDark) {
+                body.classList.add('dark-mode');
+                darkModeToggle.textContent = 'Modo Claro';
+                localStorage.setItem('darkMode', 'enabled'); // Guardar preferencia
+            } else {
+                body.classList.remove('dark-mode');
+                darkModeToggle.textContent = 'Modo Oscuro';
+                localStorage.setItem('darkMode', 'disabled'); // Guardar preferencia
+            }
+        }
+
+        // Al hacer clic en el botón
         darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            darkModeToggle.textContent = document.body.classList.contains('dark-mode') ? 'Modo Claro' : 'Modo Oscuro';
+            setDarkMode(!body.classList.contains('dark-mode'));
         });
+
+        // Al cargar la página, verificar la preferencia guardada
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            setDarkMode(true);
+        } else {
+            setDarkMode(false); // Por defecto o si está deshabilitado
+        }
     </script>
 </body>
 </html>

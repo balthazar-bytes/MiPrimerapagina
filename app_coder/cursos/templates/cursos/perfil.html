@@ -1,0 +1,71 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Perfil de {{ usuario.username }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7">
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white text-center">
+                    <h2 class="mb-0 py-2">Perfil de Usuario</h2>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        {% if avatar and avatar.imagen and avatar.imagen.url %}
+                            <img src="{{ avatar.imagen.url }}" alt="Avatar de {{ usuario.username }}" 
+                                 class="rounded-circle img-thumbnail" 
+                                 width="180" height="180" style="object-fit: cover; border: 4px solid #dee2e6;">
+                        {% else %}
+                            {# Considera tener una imagen por defecto en esta ruta o quitar esta línea #}
+                            <img src="{% static 'cursos/img/default_avatar.png' %}" alt="Avatar por defecto" 
+                                 class="rounded-circle img-thumbnail" 
+                                 width="180" height="180" style="object-fit: cover; border: 4px solid #dee2e6;">
+                            <p class="mt-2 text-muted"><small>No hay avatar. Puedes agregar uno editando tu perfil.</small></p>
+                        {% endif %}
+                    </div>
+
+                    <h3 class="text-center mb-3">{{ usuario.username }}</h3>
+                    
+                    {% if usuario.first_name or usuario.last_name %}
+                        <p class="text-center h5 text-muted mb-4">
+                            {{ usuario.first_name|default:"" }} {{ usuario.last_name|default:"" }}
+                        </p>
+                    {% endif %}
+
+                    <ul class="list-group list-group-flush mb-4">
+                        <li class="list-group-item">
+                            <strong class="me-2"><i class="fas fa-user-circle"></i> Nombre de usuario:</strong> {{ usuario.username }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong class="me-2"><i class="fas fa-envelope"></i> Email:</strong> {{ usuario.email }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong class="me-2"><i class="fas fa-user"></i> Nombre:</strong> {{ usuario.first_name|default:"No especificado" }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong class="me-2"><i class="fas fa-user"></i> Apellido:</strong> {{ usuario.last_name|default:"No especificado" }}
+                        </li>
+                    </ul>
+
+                    <div class="text-center mt-4">
+                        <a href="{% url 'editar_perfil' %}" class="btn btn-lg btn-primary">
+                            <i class="fas fa-edit me-2"></i>Editar Perfil y Avatar
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted text-center py-3">
+                    Miembro desde: {{ usuario.date_joined|date:"d M, Y" }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{# Si quieres usar los íconos de Font Awesome como en el ejemplo, necesitarás incluir su CSS. #}
+{# Puedes agregarlo en tu base.html o aquí si solo lo usas en esta página. #}
+{# Por ejemplo, desde un CDN en tu <head> de base.html: #}
+{# <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> #}
+
+{% endblock %}

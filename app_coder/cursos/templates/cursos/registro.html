@@ -1,0 +1,88 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Registrarse{% endblock %}
+
+{% block content %}
+<style>
+    /* Puedes agregar estilos similares a tu página de login si lo deseas */
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(40px);}
+        to { opacity: 1; transform: translateY(0);}
+    }
+    .register-card-animated {
+        animation: fadeInUp 0.8s ease;
+    }
+    .btn-primary {
+        transition: background 0.3s, transform 0.2s;
+    }
+    .btn-primary:hover {
+        background: #0056b3; /* Un color un poco más oscuro al pasar el mouse */
+        transform: scale(1.04);
+    }
+    input:focus {
+        box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        transition: box-shadow 0.3s;
+    }
+    .form-text {
+        font-size: 0.875em; /* Tamaño más pequeño para el texto de ayuda */
+    }
+    .errorlist { /* Estilos para la lista de errores del formulario */
+        list-style-type: none;
+        padding: 0;
+        color: red;
+        font-size: 0.9em;
+    }
+    .errorlist li {
+        margin-bottom: 5px;
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm register-card-animated">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Crear una Cuenta</h2>
+                    
+                    {% if mensaje %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ mensaje }}
+                        </div>
+                    {% endif %}
+
+                    <form method="POST" novalidate>
+                        {% csrf_token %}
+                        
+                        {{ form.as_p }} 
+                        {# form.as_p renderiza cada campo del formulario en un párrafo <p> #}
+                        {# Si quieres más control, puedes renderizar campo por campo:
+                        
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <div id="{{ field.id_for_label }}_help" class="form-text">{{ field.help_text|safe }}</div>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback d-block"> {{ error }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        #}
+
+                        <div class="d-grid mt-3">
+                            <button type="submit" class="btn btn-primary">Registrarse</button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>¿Ya tienes una cuenta? <a href="{% url 'Login' %}">Inicia sesión aquí</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
