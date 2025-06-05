@@ -1,14 +1,15 @@
 from django import forms
-from .models import Mensaje
-
-
+from .models import Mensaje 
 class MensajeForm(forms.ModelForm):
     contenido = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 4, 'placeholder': 'Escribe tu mensaje aquí...'}),
-        label='Contenido'
-        )
-    
+        widget=forms.Textarea(attrs={
+            'rows': 3, 
+            'class': 'form-control', 
+            'placeholder': 'Escribe tu mensaje aquí...'
+        }),
+        label="" 
+    )
+
     class Meta:
         model = Mensaje
-        field = ['contenido']
-        
+        fields = ['contenido'] 

@@ -1,0 +1,32 @@
+{% extends "mensajes/base_mensajes.html" %}
+
+{% block messages_content %}
+<h3>Chat con {{ receptor.username }}</h3>
+<hr>
+
+<div id="chat-messages" style="height: 400px; overflow-y: scroll; border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+    {% for mensaje in mensajes %}
+        <div class="mb-2 p-2 rounded {% if mensaje.emisor == request.user %}bg-primary text-white ms-auto text-end{% else %}bg-light text-dark me-auto text-start{% endif %}" style="max-width: 70%;">
+            <small class="fw-bold">{{ mensaje.emisor.username }}</small><br>
+            {{ mensaje.contenido }}<br>
+            <small class="text-muted" style="font-size: 0.75em;">{{ mensaje.timestamp|date:"d/m/y H:i" }}</small>
+        </div>
+    {% empty %}
+        <p>No hay mensajes todavía. ¡Envía el primero!</p>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="input-group">
+        {{ form.contenido }}
+        <button type="submit" class="btn btn-success">Enviar</button>
+    </div>
+</form>
+
+<script>
+    // Scroll al final de los mensajes al cargar la página
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+</script>
+{% endblock %}

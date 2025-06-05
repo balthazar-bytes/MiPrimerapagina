@@ -1,0 +1,20 @@
+{% extends "cursos/base.html" %} {# O tu base.html principal #}
+
+{% block title %}Mensajes - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <h4>Mensajería</h4>
+            <div class="list-group">
+                <a href="{% url 'inbox' %}" class="list-group-item list-group-item-action">Bandeja de Entrada</a>
+                <a href="{% url 'start_chat' %}" class="list-group-item list-group-item-action">Iniciar Nuevo Chat</a>
+            </div>
+        </div>
+        <div class="col-md-9">
+            {% block messages_content %}{% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

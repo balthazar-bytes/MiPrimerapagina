@@ -1,0 +1,28 @@
+{% extends "mensajes/base_mensajes.html" %}
+
+{% block messages_content %}
+<h3>Bandeja de Entrada</h3>
+{% if conversaciones %}
+    <ul class="list-group">
+        {% for conv in conversaciones %}
+            <a href="{% url 'chat_view' conv.usuario.username %}" class="list-group-item list-group-item-action {% if conv.no_leidos > 0 %}list-group-item-primary{% endif %}">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">
+                        {{ conv.usuario.username }}
+                        {% if conv.no_leidos > 0 %}
+                            <span class="badge bg-danger rounded-pill">{{ conv.no_leidos }}</span>
+                        {% endif %}
+                    </h5>
+                    <small>{{ conv.ultimo_mensaje.timestamp|timesince }} atrás</small>
+                </div>
+                <p class="mb-1">
+                    {% if conv.ultimo_mensaje.emisor == request.user %}Tú: {% endif %}
+                    {{ conv.ultimo_mensaje.contenido|truncatechars:50 }}
+                </p>
+            </a>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No tienes conversaciones activas. <a href="{% url 'start_chat' %}">¡Inicia una!</a></p>
+{% endif %}
+{% endblock %}

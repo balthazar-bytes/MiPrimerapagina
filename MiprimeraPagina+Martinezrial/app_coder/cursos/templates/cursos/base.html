@@ -195,7 +195,6 @@
 </head>
 <body>
     <header>
-        {# Tu navbar actual parece bien estructurada para que los estilos anteriores apliquen #}
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid justify-content-center">
                 <a class="navbar-brand mx-2" href="{% url 'inicio' %}">Your Website</a>
@@ -206,10 +205,13 @@
                     <ul class="navbar-nav align-items-center me-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inicio' %}">Inicio</a></li>
                         <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'estudiantes' %}">Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}">Buscar Estudiantes</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}">Profesores</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}">Cursos</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'about_me' %}">About me</a></li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'buscar_estudiante' %}">Buscar Estudiantes</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'profesores' %}">Profesores</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'cursos' %}">Cursos</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'about_me' %}">About me</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'inbox' %}">Mensajes</a></li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav align-items-center">
                         {% if user.is_authenticated %}
@@ -233,11 +235,11 @@
                             </ul>
                         </li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}">Login</a></li>
-                        <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}">Registrarse</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'Login' %}">Login</a></li>
+                            <li class="nav-item"><a class="nav-link custom-nav-btn" href="{% url 'registro' %}">Registrarse</a></li>
                         {% endif %}
                         <li class="nav-item">
-                            <button id="darkModeToggle" class="btn custom-nav-btn ms-2">Modo Oscuro</button> {# Añadí 'btn' para que se vea más como un botón si quieres, puedes quitarlo si prefieres el estilo solo de custom-nav-btn #}
+                            <button id="darkModeToggle" class="btn custom-nav-btn ms-2">Modo Oscuro</button>
                         </li>
                     </ul>
                 </div>

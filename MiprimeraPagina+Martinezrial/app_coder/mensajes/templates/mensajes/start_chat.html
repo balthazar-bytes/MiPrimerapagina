@@ -1,0 +1,17 @@
+{% extends "mensajes/base_mensajes.html" %}
+
+{% block messages_content %}
+<h3>Iniciar Nuevo Chat</h3>
+<p>Selecciona un usuario para comenzar a chatear:</p>
+{% if users %}
+    <div class="list-group">
+        {% for u in users %}
+            <a href="{% url 'chat_view' u.username %}" class="list-group-item list-group-item-action">
+                {{ u.username }}
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No hay otros usuarios registrados para chatear.</p>
+{% endif %}
+{% endblock %}
