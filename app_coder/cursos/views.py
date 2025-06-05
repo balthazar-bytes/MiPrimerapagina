@@ -242,7 +242,37 @@ class EstudainteCreateView(CreateView):
 '''esto es para actualizar los estudiantes en la vista de estudiantes, tocando el boton de editar'''
 #class EstudianteUpdateView(UpdateView):
 
+'''modificaciones de profesores'''
+class ProfesorDetailView(DetailView):
+    model = Profesor
 
+
+class ProfesorDeleteView(DeleteView):
+    model = Profesor
+    success_url = reverse_lazy("profesores")
+
+def editar_profesor(request, pk):
+    profe = Profesor.objects.get(pk=pk)
+
+    if request.method == "POST":
+        mi_formulario = ProfesorForm(request.POST, instance=profe)  # Crea un formulario con los datos del profesor
+        if mi_formulario.is_valid():
+            datos = mi_formulario.cleaned_data
+            profe.nombre = datos["nombre"]
+            profe.apellido = datos["apellido"]
+            profe.email = datos["email"]
+            profe.fecha_nacimiento = datos["fecha_nacimiento"]
+            profe.especialidad = datos["especialidad"]
+            profe.save()  # Guarda los cambios en la base de datos
+            profesores = Profesor.objects.all()  # Recupera todos los profesores de la base de datos
+            return render(request, "cursos/profesores.html", {"profesores": profesores})  # Redirige a la vista de profesores
+    else:
+        mi_formulario = ProfesorForm(instance=profe)
+    return render(request, "cursos/editar_profesor.html", {"form": mi_formulario, "profesor": profe})
+
+
+
+'''modificaciones de cursos'''
 
 
 def editar(request,pk):

@@ -1,0 +1,22 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+{% block title %}Actualizar Profesor{% endblock %}
+
+{% block content %}
+    <form actio="" method="POST">
+            {% csrf_token %}
+            <p>Nombre: </p>
+            <input type="text" name="nombre" value="{{ profesores.nombre }}" required>
+            <p>Apellido: </p>
+            <input type="text" name="apellido" value="{{ profesores.apellido }}" required>
+            <p>Email: </p>
+            <input type="email" name="email" value="{{ profesores.email }}" required>
+            <p>Fecha de Nacimiento: </p>
+            <input type="date" name="fecha_nacimiento" value="{{ profesores.fecha_nacimiento }}" required>
+            <p>Especialidad</p>
+            <input type="text" name="Especialidad" value="{{ profesores.especialidad }}" required>
+
+            <button type="submit">Guardar Cambios</button>
+        </form>
+
+{% endblock %}

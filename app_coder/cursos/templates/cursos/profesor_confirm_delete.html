@@ -1,0 +1,27 @@
+{% extends "cursos/base.html" %}
+{% load static %}
+
+{% block title %}Delete{% endblock %}
+
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h2 class="mb-0 text-center">Eliminar Profesor</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>¿Estás seguro de que deseas eliminar a {{ object.nombre }} {{ object.apellido }}?</p>
+                        <form method="post" action="{% url 'profesor_delete' object.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a href="{% url 'profesores' %}" class="btn btn-secondary">Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
